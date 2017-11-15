@@ -1,0 +1,44 @@
+{
+  "name": "alfred-google-translate",
+  "version": "1.0.0",
+  "description": "Alfred 3 workflow to translate between zh-cn and en with google tanslate api",
+  "license": "MIT",
+  "repository": "xfslove/alfred-google-translate",
+  "author": {
+    "name": "hanwen.huang",
+    "email": "xfslove@gmail.com",
+    "url": "https://github.com/xfslove/alfred-google-translate"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "test": "xo && ava",
+    "postinstall": "alfy-init",
+    "preuninstall": "alfy-cleanup"
+  },
+  "files": [
+    "index.js",
+    "icon.png",
+    "info.plist"
+  ],
+  "keywords": [
+    "translate",
+    "google-translate",
+    "alfred",
+    "alfred-workflow",
+    "workflow",
+    "alfy"
+  ],
+  "dependencies": {
+    "alfy": "^0.6.0",
+    "google-translate-api": "^2.3.0",
+    "global-tunnel-ng": "^2.1.0",
+    "is-chinese": "^1.2.5"
+  },
+  "devDependencies": {
+    "alfy-test": "^0.3.0",
+    "ava": "*",
+    "xo": "*"
+  }
+}
