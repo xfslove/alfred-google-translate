@@ -7,7 +7,8 @@ const isChinese = require('is-chinese');
 proxy.initialize();
 
 const q = alfy.input;
-const to = isChinese(q) ? 'en' : 'zh-cn';
+const to = isChinese(q) ? 'en' : 'zh-CN';
+const from = isChinese(q) ? 'zh-CN' : 'en';
 
 translate(q, {raw: true, to: to}).then(data => {
   const output = {
@@ -37,7 +38,7 @@ translate(q, {raw: true, to: to}).then(data => {
                 }
               }
             },
-            quicklookurl: `https://translate.google.com/#auto/${to}/${encodeURIComponent(q)}`
+            quicklookurl: `https://translate.google.com/#${from}/${to}/${encodeURIComponent(q)}`
           });
         });
       });
@@ -54,7 +55,7 @@ translate(q, {raw: true, to: to}).then(data => {
             }
           }
         },
-        quicklookurl: `https://translate.google.com/#auto/${to}/${encodeURIComponent(q)}` 
+        quicklookurl: `https://translate.google.com/#${from}/${to}/${encodeURIComponent(q)}` 
       });
     }
   } else {
