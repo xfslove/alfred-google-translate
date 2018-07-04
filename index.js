@@ -1,10 +1,7 @@
 'use strict';
 const alfy = require('alfy');
-const translate = require('google-translate-api');
-const proxy = require('global-tunnel-ng');
+const translate = require('china-google-translate-api');
 const isChinese = require('is-chinese');
-
-proxy.initialize();
 
 const q = alfy.input;
 const to = isChinese(q) ? 'en' : 'zh-CN';
@@ -38,7 +35,7 @@ translate(q, {raw: true, to: to}).then(data => {
                 }
               }
             },
-            quicklookurl: `https://translate.google.com/#${from}/${to}/${encodeURIComponent(q)}`
+            quicklookurl: `https://translate.google.cn/#${from}/${to}/${encodeURIComponent(q)}`
           });
         });
       });
@@ -55,7 +52,7 @@ translate(q, {raw: true, to: to}).then(data => {
             }
           }
         },
-        quicklookurl: `https://translate.google.com/#${from}/${to}/${encodeURIComponent(q)}` 
+        quicklookurl: `https://translate.google.cn/#${from}/${to}/${encodeURIComponent(q)}` 
       });
     }
   } else {

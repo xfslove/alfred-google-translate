@@ -32,8 +32,7 @@
   ],
   "dependencies": {
     "alfy": "^0.6.0",
-    "google-translate-api": "^2.3.0",
-    "global-tunnel-ng": "^2.1.0",
+    "china-google-translate-api": "latest",
     "is-chinese": "^1.2.5"
   },
   "devDependencies": {
