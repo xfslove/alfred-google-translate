@@ -1,10 +1,7 @@
 'use strict';
 const alfy = require('alfy');
 const translate = require('china-google-translate-api');
-// const proxy = require('global-tunnel-ng');
 const isChinese = require('is-chinese');
-
-// proxy.initialize();
 
 const q = alfy.input;
 const to = isChinese(q) ? 'en' : 'zh-CN';
