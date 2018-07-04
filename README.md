@@ -22,6 +22,13 @@ $ npm install -g alfred-google-translate
 
 如果输入关键字错误, 会有纠错提示, 按<kbd>tab</kbd>会用纠错后的关键字查询.
 
+## 注意
+
+最新版本已经不需要代理了，非常感谢 [@lingyv](https://github.com/lingyv) 的`pull request`
+
+~~由于使用的是google的翻译接口, 在大陆需要**才能使用, 需要电脑上有http代理,~~
+~~然后在该workflow中添加如下两个环境变量~~
+
 ## 效果
 ![corrected.png](media/corrected.png)
 按<kbd>tab</kbd>:
