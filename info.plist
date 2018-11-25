@@ -31,6 +31,19 @@
 				<true/>
 			</dict>
 		</array>
+		<key>C111234F-195C-486B-BB1D-04203C339ADD</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>287F7DE4-2A8A-4356-9659-797E2F2AE72A</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 	</dict>
 	<key>disabled</key>
 	<false/>
@@ -52,6 +65,37 @@
 			<string>alfred.workflow.output.clipboard</string>
 			<key>uid</key>
 			<string>ADDC8E18-0DF1-4EB3-8364-78E59718C8DF</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>1</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>17</integer>
+				<key>hotmod</key>
+				<integer>524288</integer>
+				<key>hotstring</key>
+				<string>T</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>C111234F-195C-486B-BB1D-04203C339ADD</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -133,23 +177,30 @@
 		<key>287F7DE4-2A8A-4356-9659-797E2F2AE72A</key>
 		<dict>
 			<key>xpos</key>
-			<integer>130</integer>
+			<integer>270</integer>
 			<key>ypos</key>
-			<integer>130</integer>
+			<integer>160</integer>
 		</dict>
 		<key>525521A9-62B9-40EE-B9D6-EB1B484BA29D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>500</integer>
+			<integer>650</integer>
 			<key>ypos</key>
-			<integer>140</integer>
+			<integer>270</integer>
 		</dict>
 		<key>ADDC8E18-0DF1-4EB3-8364-78E59718C8DF</key>
 		<dict>
 			<key>xpos</key>
-			<integer>500</integer>
+			<integer>640</integer>
 			<key>ypos</key>
-			<integer>10</integer>
+			<integer>40</integer>
+		</dict>
+		<key>C111234F-195C-486B-BB1D-04203C339ADD</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>160</integer>
 		</dict>
 	</dict>
 </dict>
