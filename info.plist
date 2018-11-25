@@ -128,11 +128,11 @@
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
-				<true/>
+				<false/>
 				<key>queuedelaymode</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>queuemode</key>
-				<integer>1</integer>
+				<integer>2</integer>
 				<key>runningsubtext</key>
 				<string>Translating...</string>
 				<key>script</key>
@@ -240,9 +240,9 @@
 		<key>32FF43BA-C0C3-44F4-916A-E171D9230512</key>
 		<dict>
 			<key>xpos</key>
-			<integer>350</integer>
+			<integer>500</integer>
 			<key>ypos</key>
-			<integer>300</integer>
+			<integer>290</integer>
 		</dict>
 		<key>430B9A7D-20CA-4342-B935-5172B5DB8956</key>
 		<dict>
