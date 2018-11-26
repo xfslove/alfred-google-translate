@@ -14,8 +14,6 @@ $ npm install -g alfred-google-translate
 
 在Alfred中, 输入`tr`, 和想要翻译的关键字, 会查询出关键字相关的翻译结果.
 
-在mac中，选中一段字符串，按住<kbd>option</kbd>+<kbd>t</kbd>，会自动进入`tr`的`workflow`.
-
 选中其中一个, 按<kbd>enter</kbd>复制翻译结果到剪切板.
 
 按住<kbd>cmd</kbd>+<kbd>L</kbd>显示完整的当前项.
