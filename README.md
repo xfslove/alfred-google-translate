@@ -42,7 +42,7 @@
 
 ## 效果
 ![corrected.png](media/corrected.png)
-按<kbd>tab</kbd>:
+按<kbd>enter</kbd>:
 ![general.png](media/general.png)
 按<kbd>cmd</kbd>:
 ![pronounce.png](media/pronounce.png)
