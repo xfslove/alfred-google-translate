@@ -36,6 +36,9 @@ translate(q, { raw: true, from: from, to: to })
       text: {
         copy: translation[1],
         largetype: translation[1]
+      },
+      icon: {
+        path: 'tts.png'
       }
     });
 
@@ -54,6 +57,9 @@ translate(q, { raw: true, from: from, to: to })
       text: {
         copy: translation[0],
         largetype: translation[0]
+      },
+      icon: {
+        path: 'tts.png'
       }
     });
     
