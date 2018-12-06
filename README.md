@@ -6,8 +6,8 @@
 *Requires [Node.js](https://nodejs.org) 4+ and the Alfred [Powerpack](https://www.alfredapp.com/powerpack/).*
 
 - npm安装`npm install -g alfred-google-translate`
-
-- [下载](https://github.com/xfslove/alfred-google-translate/releases/tag/v1.1.1)workflow
+- [下载](https://github.com/xfslove/alfred-google-translate/releases/tag/v1.1.3)workflow
+- [更新日志](https://github.com/xfslove/alfred-google-translate/releases)
 
 
 ## 用法
