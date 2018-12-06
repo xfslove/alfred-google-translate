@@ -38,9 +38,8 @@ function tts(text, opts) {
         data[token.name] = token.value;
         return url + '?' + querystring.stringify(data);
     }).then(function (url) {
-        return got(url, {encoding: null}).then(function (res) {
+        got(url, {encoding: null}).then(function (res) {
             fs.writeFileSync(os.tmpdir() + "/" + text + ".mp3", res.body);
-            return 'ok';
         }).catch(function (err) {
             err.message += `\nUrl: ${url}`;
             if (err.statusCode !== undefined && err.statusCode !== 200) {
