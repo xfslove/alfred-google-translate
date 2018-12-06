@@ -154,7 +154,7 @@
 				<key>escaping</key>
 				<integer>0</integer>
 				<key>script</key>
-				<string>say {query}</string>
+				<string>afplay $TMPDIR/{query}.mp3</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>

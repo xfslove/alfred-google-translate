@@ -1,11 +1,13 @@
 "use strict";
-const alfy = require("alfy");
-const translate = require("china-google-translate-api");
+const tts = require("./tts");
+const translate = require("./translate");
 const isChinese = require("is-chinese");
 
-const q = alfy.input;
+const os = require('os');
+
+const q = process.argv[2];
 const to = isChinese(q) ? "en" : "zh-CN";
-const from = "auto";
+const from = isChinese(q) ? "zh-CN" : "en";
 
 //文档上说cmd+L时会找largetype，找不到会找arg，但是实际并不生效。
 //同时下一步的发音模块中query变量的值为arg的值，也十分诡异。可能是我文档没看全。
@@ -17,9 +19,7 @@ const getItem = ({ title = "", subtitle = "" }) => ({
       subtitle: "请按 Enter 发音"
     }
   },
-  quicklookurl: `https://translate.google.cn/#${from}/${to}/${encodeURIComponent(
-      q
-  )}`,
+  quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${from}&tl=${to}&text=${encodeURIComponent(q)}`,
   arg: title,
   text: {
     copy: title,
@@ -27,7 +27,7 @@ const getItem = ({ title = "", subtitle = "" }) => ({
   }
 });
 
-translate(q, { raw: true, to: to })
+translate(q, { raw: true, from: from, to: to })
 .then(data => {
   const output = {
     items: []
@@ -39,6 +39,7 @@ translate(q, { raw: true, to: to })
         const partOfSpeech = r[0];
         r[2].forEach(x => {
           const [text, relation] = x;
+          tts(text, { to: to });
           output.items.push(
               getItem({
                 title: text,
