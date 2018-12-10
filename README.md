@@ -6,30 +6,45 @@
 *Requires [Node.js](https://nodejs.org) 4+ and the Alfred [Powerpack](https://www.alfredapp.com/powerpack/).*
 
 - npm安装`npm install -g alfred-google-translate`
-- [下载](https://github.com/xfslove/alfred-google-translate/releases/tag/v1.1.3)workflow
+- [下载](https://github.com/xfslove/alfred-google-translate/releases/tag/v1.1.3) workflow
 - [更新日志](https://github.com/xfslove/alfred-google-translate/releases)
 
 
 ## 用法
 
-在Alfred中, 输入`tr`, 和想要翻译的关键字, 会查询出关键字相关的翻译结果.
+在Alfred中, 输入`tr`, 和想要翻译的关键字, 会查询出关键字的翻译结果和相关（同义）的结果.
+
+其中第一项为查询关键字本身，第二项为查询关键字的翻译结果，并带上音标（韦氏音标）.
+
+第三项开始为查询关键字的相关（同义）翻译结果.
+
+第一项和第二项：
 
 选中其中一个, 按<kbd>enter</kbd>复制翻译结果到剪切板.
 
-按住<kbd>cmd</kbd>+<kbd>L</kbd>显示完整的当前项.
-
 按住<kbd>cmd</kbd>再按<kbd>enter</kbd>发音.
 
-按<kbd>shift</kbd>在google翻译官网查看翻译结果和其它更多内容.
+按<kbd>shift</kbd>显示当前项在google翻译官网翻译内容.
+
+按住<kbd>cmd</kbd>+<kbd>L</kbd>显示完整的当前项的翻译.
+
+第三项以后，按<kbd>enter</kbd>会用当前项查询.
 
 如果输入关键字错误, 会有纠错提示, 按<kbd>enter</kbd>会用纠错后的关键字查询.
 
 ## 设置快捷键
-设置快捷键后，按快捷键可以快速激发workflow，并且会带着按键时选中的字符串。
-设置过程如图: 
+
+设置快捷键后，按快捷键可以快速激发workflow，并且会带着按键时选中的字符串.
+
+如果是直接安装的workflow，可能快捷键没有设置，可以手动进行设置，设置过程如图: 
+
 ![hotkey](media/hotkey.gif)
+
 使用方法如图:
+
 ![result](media/result.gif)
+
+
 
 ## 注意
 
