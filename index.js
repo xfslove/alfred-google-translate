@@ -25,11 +25,11 @@ translate(q, { raw: true, from: from, to: to })
     tts(translation[1], { to: from });
     output.items.push({
       title: translation[1], 
-      subtitle: standard[3] ? `${standard[3]}` : '',
+      subtitle: standard[3] ? standard[3] : '',
       quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${from}&tl=${to}&text=${encodeURIComponent(translation[1])}`,
       mods: {
         cmd: {
-          subtitle: "请按 enter 发音"
+          subtitle: "发音"
         }
       },
       arg: translation[1],
@@ -46,11 +46,11 @@ translate(q, { raw: true, from: from, to: to })
     tts(translation[0], { to: to });
     output.items.push({ 
       title: translation[0], 
-      subtitle: standard[2] ? `${standard[2]}` : '',
+      subtitle: standard[2] ? standard[2] : '',
       quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${to}&tl=${from}&text=${encodeURIComponent(translation[0])}`,
       mods: {
         cmd: {
-          subtitle: "请按 enter 发音"
+          subtitle: "发音"
         }
       },
       arg: translation[0],
