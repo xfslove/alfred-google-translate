@@ -1,13 +1,14 @@
 "use strict";
 const tts = require("./tts");
 const translate = require("./translate");
-const isChinese = require("is-chinese");
+// 简单正则，只要包含一个就是中文
+const isChinese = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
 
 const os = require('os');
 
 const q = process.argv[2];
-const to = isChinese(q) ? "en" : "zh-CN";
-const from = isChinese(q) ? "zh-CN" : "en";
+const from = isChinese.test(q) ? "zh-CN" : "en";
+const to = from === "zh-CN" ? "en" : "zh-CN";
 
 //文档上说cmd+L时会找largetype，找不到会找arg，但是实际并不生效。
 //同时下一步的发音模块中query变量的值为arg的值。
