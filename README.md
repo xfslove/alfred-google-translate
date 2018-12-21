@@ -67,7 +67,7 @@
 ## Related
 
 - [alfy](https://github.com/sindresorhus/alfy) - Create Alfred workflows with ease
-- [google-translate-api](https://github.com/matheuss/google-translate-api) - A free and unlimited API for Google Translate
+- [google-translate-api](https://github.com/vitalets/google-translate-api) - A free and unlimited API for Google Translate
 
 
 ## License
