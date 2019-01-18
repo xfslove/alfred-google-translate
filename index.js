@@ -22,27 +22,30 @@ translate(q, { raw: true, from: from, to: to })
     
     const translation = rawObj[0][0];
     const standard = rawObj[0][1];
+    
     // 查询的内容
-    tts(translation[1], { to: from });
-    output.items.push({
-      title: translation[1], 
-      subtitle: standard[3] ? standard[3] : '',
-      quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${from}&tl=${to}&text=${encodeURIComponent(translation[1])}`,
-      mods: {
-        cmd: {
-          subtitle: "发音"
+    if (!/[^\w]/.test(q)) {
+      tts(translation[1], { to: from });
+      output.items.push({
+        title: translation[1], 
+        subtitle: standard[3] ? standard[3] : '',
+        quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${from}&tl=${to}&text=${encodeURIComponent(translation[1])}`,
+        mods: {
+          cmd: {
+            subtitle: "发音"
+          }
+        },
+        arg: translation[1],
+        text: {
+          copy: translation[1],
+          largetype: translation[1]
+        },
+        icon: {
+          path: 'tts.png'
         }
-      },
-      arg: translation[1],
-      text: {
-        copy: translation[1],
-        largetype: translation[1]
-      },
-      icon: {
-        path: 'tts.png'
-      }
-    });
-
+      });
+    }
+    
     // 翻译的内容
     tts(translation[0], { to: to });
     output.items.push({ 
