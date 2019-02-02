@@ -72,7 +72,7 @@ translate(q, { raw: true, from: from, to: to })
           const example = m[2];
           output.items.push({
             title: m[0],
-            subtitle: `${partOfSpeech}   示例: ${example}`,
+            subtitle: `英文解释  ${partOfSpeech}  示例: ${example}`,
             autocomplete: m[0]
           });
         });

@@ -56,13 +56,18 @@
 ~~然后在该workflow中添加如下两个环境变量~~
 
 ## 效果
+
 ![corrected.png](media/corrected.png)
-按<kbd>enter</kbd>:
-![general.png](media/general.png)
-按<kbd>cmd</kbd>:
-![pronounce.png](media/pronounce.png)
-按<kbd>shift</kbd>:
-![quicklook.png](media/quicklook.png)
+
+- 按<kbd>enter</kbd>复制结果:
+
+    ![general.png](media/general.png)
+- 按<kbd>cmd</kbd>+<kbd>enter</kbd>发音:
+
+    ![pronounce.png](media/pronounce.png)
+- 按<kbd>shift</kbd>打开页面展示详情:
+
+    ![quicklook.png](media/quicklook.png)
 
 ## Related
 
