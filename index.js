@@ -25,7 +25,7 @@ translate(q, { raw: true, from: from, to: to })
     // 查询的内容
     tts(translation[1], { to: from });
     output.items.push({
-      title: translation[1], 
+      title: translation[1],
       subtitle: standard[3] ? standard[3] : '',
       quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${from}&tl=${to}&text=${encodeURIComponent(translation[1])}`,
       mods: {
@@ -63,7 +63,27 @@ translate(q, { raw: true, from: from, to: to })
         path: 'tts.png'
       }
     });
-    
+
+    //英文定义, 英译英
+    if (rawObj[12]) {
+      rawObj[12].forEach(r => {
+        const partOfSpeech = r[0];
+        r[1].forEach(m => {
+          const example = m[2];
+          output.items.push({
+            title: m[0],
+            subtitle: `英文解释  ${partOfSpeech}  示例: ${example}`,
+            quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${to}&tl=${from}&text=${encodeURIComponent(translation[0])}`,
+            arg: m[0],
+            text: {
+              copy: m[0],
+              largetype: m[0]
+            }
+          });
+        });
+      });
+    }
+
     // 相关de翻译内容
     if (rawObj[1]) {
       rawObj[1].forEach(r => {
