@@ -69,15 +69,15 @@ translate(q, { raw: true, from: from, to: to })
       rawObj[12].forEach(r => {
         const partOfSpeech = r[0];
         r[1].forEach(m => {
-          const example = m[2];
+          const [explain, nvl, example] = m;
           output.items.push({
-            title: m[0],
-            subtitle: `${partOfSpeech}  示例: ${example}`,
+            title: explain,
+            subtitle: `英文解释 ${partOfSpeech} 示例: ${example}`,
             quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${to}&tl=${from}&text=${encodeURIComponent(translation[1])}`,
-            arg: m[0],
+            arg: explain,
             text: {
-              copy: m[0],
-              largetype: m[0] + '\n"' + example + '"'
+              copy: explain,
+              largetype: `${explain}\n"${example}"`
             }
           });
         });
@@ -89,10 +89,10 @@ translate(q, { raw: true, from: from, to: to })
       rawObj[1].forEach(r => {
         const partOfSpeech = r[0];
         r[2].forEach(x => {
-          const [text, relation] = x;
+          const [text, relation, nvl, rate] = x;
           output.items.push({
             title: text,
-            subtitle: `${partOfSpeech} (${relation.join(", ")})`,
+            subtitle: `频率: ${rate.toFixed(4)} ${partOfSpeech} 同义词: ${relation.join(", ")}`,
             autocomplete: text
           });
         });
