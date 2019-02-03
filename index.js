@@ -72,12 +72,12 @@ translate(q, { raw: true, from: from, to: to })
           const example = m[2];
           output.items.push({
             title: m[0],
-            subtitle: `英文解释  ${partOfSpeech}  示例: ${example}`,
-            quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${to}&tl=${from}&text=${encodeURIComponent(translation[0])}`,
+            subtitle: `${partOfSpeech}  示例: ${example}`,
+            quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${to}&tl=${from}&text=${encodeURIComponent(translation[1])}`,
             arg: m[0],
             text: {
               copy: m[0],
-              largetype: m[0]
+              largetype: m[0] + '\n"' + example + '"'
             }
           });
         });
