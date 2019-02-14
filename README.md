@@ -57,7 +57,9 @@
 
 ## 效果
 
-![corrected.png](media/corrected.png)
+- 纠错:
+
+  ![corrected.png](media/corrected.png)
 
 - 按<kbd>enter</kbd>复制结果:
 
