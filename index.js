@@ -92,7 +92,7 @@ translate(q, { raw: true, from: from, to: to })
           const [text, relation, nvl, rate] = x;
           output.items.push({
             title: text,
-            subtitle: `频率: ${rate.toFixed(4)} ${partOfSpeech} 同义词: ${relation.join(", ")}`,
+            subtitle: `频率: ${rate?rate.toFixed(4):"0.0000"} ${partOfSpeech} 同义词: ${relation.join(", ")}`,
             autocomplete: text
           });
         });
