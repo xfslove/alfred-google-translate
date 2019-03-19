@@ -22,7 +22,7 @@
 
 选中其中一个, 按<kbd>enter</kbd>发音.
 
-按住<kbd>cmd</kbd>再按<kbd>C</kbd>复制当前项到剪切板.
+按住<kbd>cmd</kbd>+<kbd>C</kbd>复制当前项到剪切板.
 
 按<kbd>shift</kbd>显示当前项在google翻译官网翻译内容.
 
@@ -63,13 +63,10 @@
 
   ![corrected.png](media/corrected.png)
 
-- 按<kbd>enter</kbd>复制结果:
+- 按<kbd>enter</kbd>发音，按<kbd>cmd</kbd>+<kbd>C</kbd>复制结果，按<kbd>cmd</kbd>+<kbd>L</kbd>显示完整结果：
 
     ![general.png](media/general.png)
-- 按<kbd>cmd</kbd>+<kbd>enter</kbd>发音:
-
-    ![pronounce.png](media/pronounce.png)
-- 按<kbd>shift</kbd>打开页面展示详情:
+- 按<kbd>shift</kbd>打开Google翻译页面：
 
     ![quicklook.png](media/quicklook.png)
 
