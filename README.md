@@ -52,23 +52,26 @@
 
 最新版本已经不需要代理了，非常感谢 [@lingyv](https://github.com/lingyv) 的`pull request`.
 
-不需要代理的原理是使用`translate.google.cn`代替了`translate.google.com`，如遇到无法拉取翻译结果的情况，可以考虑更换`DNS`设置。比如更换为`DNSPod`或者`Alibaba`的公共dns。
+不需要代理的原理是使用`translate.google.cn`代替了`translate.google.com`，如遇到无法拉取翻译结果的情况，可以考虑更换`DNS`设置。比如更换为`DNSPod`或者`Alibaba`的公共dns
 
 ~~由于使用的是google的翻译接口, 在大陆需要**才能使用, 需要电脑上有http代理,~~
 ~~然后在该workflow中添加如下两个环境变量~~
 
 ## 效果
 
-- 纠错:
+- 纠错
 
   ![corrected.png](media/corrected.png)
 
-- 按<kbd>enter</kbd>发音，按<kbd>cmd</kbd>+<kbd>C</kbd>复制结果，按<kbd>cmd</kbd>+<kbd>L</kbd>显示完整结果：
+- 按<kbd>enter</kbd>发音，按<kbd>cmd</kbd>+<kbd>C</kbd>复制结果
 
     ![general.png](media/general.png)
-- 按<kbd>shift</kbd>打开Google翻译页面：
+
+- 按<kbd>shift</kbd>打开Google翻译页面
 
     ![quicklook.png](media/quicklook.png)
+
+- 按<kbd>cmd</kbd>+按<kbd>L</kbd>显示完整翻译结果，如上面快捷键部分gif所示
 
 ## Related
 
