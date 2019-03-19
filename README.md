@@ -20,15 +20,17 @@
 
 第一项和第二项：
 
-选中其中一个, 按<kbd>enter</kbd>复制翻译结果到剪切板.
+选中其中一个, 按<kbd>enter</kbd>发音.
 
-按住<kbd>cmd</kbd>再按<kbd>enter</kbd>发音.
+按住<kbd>cmd</kbd>再按<kbd>C</kbd>复制当前项到剪切板.
 
 按<kbd>shift</kbd>显示当前项在google翻译官网翻译内容.
 
 按住<kbd>cmd</kbd>+<kbd>L</kbd>显示完整的当前项的翻译.
 
-第三项以后，按<kbd>enter</kbd>会用当前项查询.
+第三项以后，会有英译英结果和相关查询结果（近义词）
+
+选中相关查询结果再按<kbd>enter</kbd>会用当前项查询.
 
 如果输入关键字错误, 会有纠错提示, 按<kbd>enter</kbd>会用纠错后的关键字查询.
 

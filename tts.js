@@ -1,8 +1,5 @@
 var querystring = require('querystring');
-
-var os = require('os');
 var got = require('got');
-var fs = require('fs');
 
 var token = require('./token');
 var languages = require('./languages');
@@ -38,8 +35,10 @@ function tts(text, opts) {
         data[token.name] = token.value;
         return url + '?' + querystring.stringify(data);
     }).then(function (url) {
-        got(url, {encoding: null}).then(function (res) {
-            fs.writeFileSync(os.tmpdir() + "/" + text + ".mp3", res.body);
+        return got(url, {encoding: null}).then(function (res) {
+          
+            return res.body;
+            
         }).catch(function (err) {
             err.message += `\nUrl: ${url}`;
             if (err.statusCode !== undefined && err.statusCode !== 200) {

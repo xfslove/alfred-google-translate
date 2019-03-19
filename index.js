@@ -1,63 +1,92 @@
 "use strict";
+const alfy = require('alfy');
+
 const tts = require("./tts");
 const translate = require("./translate");
-// 简单正则，只要包含一个就是中文
-const isChinese = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
 
 const os = require('os');
+const fs = require('fs');
+const uuidv4 = require('uuid/v4');
 
-const q = process.argv[2];
-const from = isChinese.test(q) ? "zh-CN" : "en";
-const to = from === "zh-CN" ? "en" : "zh-CN";
+const q = alfy.input;
 
+// 简单正则，只要包含一个就是中文
+const isChinese = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+var data = {
+  from: {
+    lang: isChinese.test(q) ? 'zh-CN' : 'en',
+    ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3",
+    text: [],
+    standard: ''
+  },
+  to: {
+    lang: isChinese.test(q) ? 'en' : 'zh-CN',
+    ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3",
+    text: [],
+    standard: ''
+  }
+}
 //文档上说cmd+L时会找largetype，找不到会找arg，但是实际并不生效。
 //同时下一步的发音模块中query变量的值为arg的值。
-translate(q, { raw: true, from: from, to: to })
-.then(data => {
-  const output = {
-    items: []
-  };
-  const rawObj = JSON.parse(data.raw);
-  if (!data.from.text.autoCorrected) {
+translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
+.then(res => {
+  var items = [];
+  
+  if (res.from.text.autoCorrected) {
     
-    const translation = rawObj[0][0];
-    const standard = rawObj[0][1];
-    // 查询的内容
-    tts(translation[1], { to: from });
-    output.items.push({
-      title: translation[1],
-      subtitle: standard[3] ? standard[3] : '',
-      quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${from}&tl=${to}&text=${encodeURIComponent(translation[1])}`,
-      mods: {
-        cmd: {
-          subtitle: "发音"
+    const corrected = res.from.text.value
+    .replace(/\[/, "")
+    .replace(/\]/, "");
+    
+    // 纠错的内容
+    items.push({
+      title: res.text,
+      subtitle: `您要查询的是 ${corrected} 吗?`,
+      autocomplete: corrected
+    });
+    
+  } else {
+  
+    const rawObj = JSON.parse(res.raw);
+  
+    const translation = rawObj[0];
+    var indexOfStandard = 0;
+    translation.forEach(obj => {
+        if (obj[0]) {
+          data.from.text.push(obj[1]);
+          data.to.text.push(obj[0]);
+          indexOfStandard++;
         }
-      },
-      arg: translation[1],
+    });
+    const standard = rawObj[0][indexOfStandard];
+    
+    data.from.standard = rawObj[0][indexOfStandard][3];
+    data.to.standard = rawObj[0][indexOfStandard][2];
+
+    // 查询的内容
+    items.push({
+      title: data.from.text.join(' '),
+      subtitle: data.from.standard ? data.from.standard : '',
+      quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
+      arg: data.from.ttsfile,
       text: {
-        copy: translation[1],
-        largetype: translation[1]
+        copy: data.from.text.join(' '),
+        largetype: data.from.text.join(' ')
       },
       icon: {
         path: 'tts.png'
       }
     });
-
+  
     // 翻译的内容
-    tts(translation[0], { to: to });
-    output.items.push({ 
-      title: translation[0], 
-      subtitle: standard[2] ? standard[2] : '',
-      quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${to}&tl=${from}&text=${encodeURIComponent(translation[0])}`,
-      mods: {
-        cmd: {
-          subtitle: "发音"
-        }
-      },
-      arg: translation[0],
+    items.push({
+      title: data.to.text.join(' '),
+      subtitle: data.to.standard ? data.to.standard : '',
+      quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${data.to.lang}&tl=${data.from.lang}&text=${encodeURIComponent(data.to.text)}`,
+      arg: data.to.ttsfile,
       text: {
-        copy: translation[0],
-        largetype: translation[0]
+        copy: data.to.text.join(' '),
+        largetype: data.to.text.join(' ')
       },
       icon: {
         path: 'tts.png'
@@ -66,18 +95,17 @@ translate(q, { raw: true, from: from, to: to })
 
     //英文定义, 英译英
     if (rawObj[12]) {
-      rawObj[12].forEach(r => {
-        const partOfSpeech = r[0];
-        r[1].forEach(m => {
+      rawObj[12].forEach(obj => {
+        const partOfSpeech = obj[0];
+        obj[1].forEach(m => {
           const [explain, nvl, example] = m;
-          output.items.push({
+          items.push({
             title: explain,
-            subtitle: `英文解释 ${partOfSpeech} 示例: ${example}`,
-            quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${to}&tl=${from}&text=${encodeURIComponent(translation[1])}`,
-            arg: explain,
+            subtitle: `英文解释 ${partOfSpeech} 示例: ${example ? example : "无"}`,
+            quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
             text: {
               copy: explain,
-              largetype: `${explain}\n"${example}"`
+              largetype: `${explain}\n\"${example ? example : ""}\"`
             }
           });
         });
@@ -86,33 +114,46 @@ translate(q, { raw: true, from: from, to: to })
 
     // 相关de翻译内容
     if (rawObj[1]) {
-      rawObj[1].forEach(r => {
-        const partOfSpeech = r[0];
-        r[2].forEach(x => {
+      rawObj[1].forEach(obj => {
+        const partOfSpeech = obj[0];
+        obj[2].forEach(x => {
           const [text, relation, nvl, rate] = x;
-          output.items.push({
+          items.push({
             title: text,
-            subtitle: `频率: ${rate?rate.toFixed(4):"0.0000"} ${partOfSpeech} 同义词: ${relation.join(", ")}`,
+            subtitle: `频率: ${rate?rate.toFixed(4):"0.0000"} ${partOfSpeech} 同义词: ${relation ? relation.join(", ") : "无"}`,
             autocomplete: text
           });
         });
       });
     }
-    
-  } else {
-    const corrected = data.from.text.value
-    .replace(/\[/, "")
-    .replace(/\]/, "");
-    output.items.push({
-      title: data.text,
-      subtitle: `您要查询的是 ${corrected} 吗?`,
-      autocomplete: corrected
-    });
   }
-
-  // alfy.output(output.items)
-  console.log(JSON.stringify(output, null, "\t"));
+  
+  alfy.output(items);
+})
+.then(function() {
+  // 获取发音
+  createtts(data.from.text.reverse(), data.from.lang, data.from.ttsfile, true);
+  createtts(data.to.text.reverse(), data.to.lang, data.to.ttsfile, true);
+})
+.catch(err => {
+  console.log(err);
 });
-// .catch(err => {
-//   console.log(err);
-// });
+
+function createtts(data, lang, file, create) {
+  var text = data.pop();
+  if (!text) return;
+  tts(text, { to: lang })
+  .then(buffer => {
+    if (create) {
+      fs.writeFile(file, buffer, function(err) {
+        if (err) throw err;
+        createtts(data, lang, file, false);
+      });
+    } else {
+      fs.appendFile(file, buffer, function(err) {
+        if (err) throw err;
+        createtts(data, lang, file, false);
+      });
+    }
+  });
+}
