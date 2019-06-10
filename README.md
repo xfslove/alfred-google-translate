@@ -1,78 +1,63 @@
 # alfred-google-translate
 [![NPM](https://nodei.co/npm/alfred-google-translate.png)](https://nodei.co/npm/alfred-google-translate/)
 
-## 安装
+## Install
 
-*Requires [Node.js](https://nodejs.org) 6+ and the Alfred [Powerpack](https://www.alfredapp.com/powerpack/).*
+*Requires [Node.js](https://nodejs.org) 4+ and the Alfred [Powerpack](https://www.alfredapp.com/powerpack/).*
 
-- 用npm安装`npm install -g alfred-google-translate`
-- 或者[下载](https://github.com/xfslove/alfred-google-translate/releases/tag/v1.1.3) workflow
+- install with `npm install -g alfred-google-translate`
+- or [download](https://github.com/xfslove/alfred-google-translate/releases/tag/v1.1.3) workflow
 
-## [更新日志](https://github.com/xfslove/alfred-google-translate/releases)
+## [Changelog](https://github.com/xfslove/alfred-google-translate/releases)
 
+## Usage
 
-## 用法
+Alfred workflow Keyword `tr`.
 
-在Alfred中, 输入`tr`, 和想要翻译的关键字, 会查询出关键字的翻译结果和相关（同义）的结果.
+the items explain:
 
-其中第一项为查询关键字本身，第二项为查询关键字的翻译结果，并带上音标（韦氏音标）.
+The first item is input word or sentence.
 
-第三项开始为查询关键字的相关（同义）翻译结果.
+The second item is translation of input (webster phonetic if avaliable).
 
-第一项和第二项：
+The reset of items are Definitions and Translations of input (webster phonetic if avaliable).
 
-选中其中一个, 按<kbd>enter</kbd>发音.
+at the first and second item You can:
 
-按住<kbd>cmd</kbd>+<kbd>C</kbd>复制当前项到剪切板.
+- press <kbd>enter</kbd> to read the item.
+- press <kbd>cmd</kbd>+<kbd>C</kbd> to copy the item.
+- press <kbd>shift</kbd> open the translate website.
+- press <kbd>cmd</kbd>+<kbd>L</kbd> to see the full content.
 
-按<kbd>shift</kbd>显示当前项在google翻译官网翻译内容.
+if You input wrong word, the workflow will correct your input, and You can press  <kbd>enter</kbd> to see.
 
-按住<kbd>cmd</kbd>+<kbd>L</kbd>显示完整的当前项的翻译.
+## Hotkey
 
-第三项以后，会有英译英结果和相关查询结果（近义词）
-
-选中相关查询结果再按<kbd>enter</kbd>会用当前项查询.
-
-如果输入关键字错误, 会有纠错提示, 按<kbd>enter</kbd>会用纠错后的关键字查询.
-
-## 设置快捷键
-
-设置快捷键后，按快捷键可以快速激发workflow，并且会带着按键时选中的字符串.
-
-如果是直接安装的workflow，可能快捷键没有设置，可以手动进行设置，设置过程如图: 
+if you download the workflow, you may lost the hotkey, so you can manual config this, like:
 
 ![hotkey](media/hotkey.gif)
 
-使用方法如图:
+snapshot:
 
 ![result](media/result.gif)
 
 
 
-## 注意
+## Snapshot
 
-最新版本已经不需要代理了，非常感谢 [@lingyv](https://github.com/lingyv) 的`pull request`.
-
-不需要代理的原理是使用`translate.google.cn`代替了`translate.google.com`，如遇到无法拉取翻译结果的情况，可以考虑更换`DNS`设置。比如更换为`DNSPod`或者`Alibaba`的公共dns
-
-~~由于使用的是google的翻译接口, 在大陆需要**才能使用, 需要电脑上有http代理,~~
-~~然后在该workflow中添加如下两个环境变量~~
-
-## 效果
-
-- 纠错
+- correct
 
   ![corrected.png](media/corrected.png)
 
-- 按<kbd>enter</kbd>发音，按<kbd>cmd</kbd>+<kbd>C</kbd>复制结果
+- press <kbd>enter</kbd> to read，press<kbd>cmd</kbd>+<kbd>C</kbd> to copy
 
     ![general.png](media/general.png)
 
-- 按<kbd>shift</kbd>打开Google翻译页面
+- press <kbd>shift</kbd> to open translate website
 
     ![quicklook.png](media/quicklook.png)
 
-- 按<kbd>cmd</kbd>+按<kbd>L</kbd>显示完整翻译结果，如上面快捷键部分gif所示
+- press <kbd>cmd</kbd>+<kbd>L</kbd> to show full content，like the gif in hotkey.
 
 ## Related
 
