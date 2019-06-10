@@ -40,7 +40,7 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain
     .replace(/\[/, "")
     .replace(/\]/, "");
     
-    // 纠错的内容
+    // Correct
     items.push({
       title: res.text,
       subtitle: `show translation for ${corrected}?`,
@@ -65,7 +65,7 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain
     data.from.standard = rawObj[0][indexOfStandard][3];
     data.to.standard = rawObj[0][indexOfStandard][2];
 
-    // 查询的内容
+    // Input
     items.push({
       title: data.from.text.join(' '),
       subtitle: data.from.standard || '',
@@ -80,7 +80,7 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain
       }
     });
   
-    // 翻译的内容
+    // Translation
     items.push({
       title: data.to.text.join(' '),
       subtitle: data.to.standard || '',
@@ -95,7 +95,7 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain
       }
     });
 
-    //英文定义, 英译英
+    // Definitions
     if (rawObj[12]) {
       rawObj[12].forEach(obj => {
         const partsOfSpeech = obj[0];
@@ -114,7 +114,7 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain
       });
     }
 
-    // 相关de翻译内容
+    // Translation Of
     if (rawObj[1]) {
       rawObj[1].forEach(obj => {
         const partsOfSpeech = obj[0];
@@ -132,7 +132,7 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain
   alfy.output(items);
 })
 .then(function() {
-  // 获取发音
+  // tts
   createtts(data.from.text.reverse(), data.from.lang, data.from.ttsfile, true);
   createtts(data.to.text.reverse(), data.to.lang, data.to.ttsfile, true);
 })
