@@ -37,7 +37,7 @@ if you download the workflow, you may lost the hotkey, so you can manual config 
 
 ![hotkey](media/hotkey.gif)
 
-snapshot:
+##### hotkey and largetype snapshot:
 
 ![result](media/result.gif)
 
@@ -57,7 +57,7 @@ snapshot:
 
     ![quicklook.png](media/quicklook.png)
 
-- press <kbd>cmd</kbd>+<kbd>L</kbd> to show full content，like the gif in hotkey.
+- press <kbd>cmd</kbd>+<kbd>L</kbd> to show full content，like the [gif in hotkey](#hotkey-and-largetype-snapshot).
 
 ## Related
 

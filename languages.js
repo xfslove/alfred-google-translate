@@ -22,8 +22,8 @@ var langs = {
     'ca': 'Catalan',
     'ceb': 'Cebuano',
     'ny': 'Chichewa',
-    'zh-cn': 'Chinese Simplified',
-    'zh-tw': 'Chinese Traditional',
+    'zh-CN': 'Chinese Simplified',
+    'zh-TW': 'Chinese Traditional',
     'co': 'Corsican',
     'hr': 'Croatian',
     'cs': 'Czech',
@@ -123,7 +123,6 @@ function getCode(desiredLang) {
     if (!desiredLang) {
         return false;
     }
-    desiredLang = desiredLang.toLowerCase();
 
     if (langs[desiredLang]) {
         return desiredLang;
@@ -134,7 +133,7 @@ function getCode(desiredLang) {
             return false;
         }
 
-        return langs[key].toLowerCase() === desiredLang;
+        return langs[key] === desiredLang;
     });
 
     return keys[0] || false;
