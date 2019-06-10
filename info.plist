@@ -35,6 +35,10 @@
 			</dict>
 		</array>
 	</dict>
+	<key>createdby</key>
+	<string>hanwen.huang</string>
+	<key>description</key>
+	<string>translate with google tanslate api</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -174,7 +178,13 @@
 		<key>domain</key>
 		<string>https://translate.google.cn</string>
 	</dict>
+	<key>variablesdontexport</key>
+	<array>
+		<string>domain</string>
+	</array>
 	<key>version</key>
 	<string></string>
+	<key>webaddress</key>
+	<string>https://github.com/xfslove/alfred-google-translate#readme</string>
 </dict>
 </plist>
