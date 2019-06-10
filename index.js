@@ -137,8 +137,8 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain
 .catch(error => {
   
   alfy.output([{
-    title: `Error: maybe cause by the input not the language of ${data.from.lang}`,
-    subtitle: `current language configuration(${data.from.lang}>${data.to.lang}), Press ⌘L to see the full error.`,
+    title: `Error: maybe input wrong language [${data.from.lang}].`,
+    subtitle: `current language configuration [${data.from.lang}>${data.to.lang}], Press ⌘L to see the full error.`,
     text: {
 			largetype: error.stack || error
 		},
