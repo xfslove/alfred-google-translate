@@ -16,7 +16,9 @@ for chinese.
 
 2.x版本是支持多种语言翻译的，所以翻译所使用的域名为`translate.google.com`，这个域名目前在大陆无法访问。
 
-可以使用[1.x版本](https://github.com/xfslove/alfred-google-translate/tree/v1.x)，或者使用2.x版本是在workflow的环境变量中加入`domain=translate.google.cn`，如下：
+因此可以继续使用[1.x版本](https://github.com/xfslove/alfred-google-translate/tree/v1.x).
+
+如果使用2.x版本，需在workflow的环境变量中加入`domain=translate.google.cn`，如下：
 
 ![domain.gif](media/domain.gif)
 
