@@ -1,26 +1,25 @@
 "use strict";
 const alfy = require('alfy');
-
 const tts = require("./tts");
 const translate = require("./translate");
-
+const configstore = require('configstore');
 const os = require('os');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
+const languagePair = new configstore('language-config-pair');
+const domain = process.env.domain || 'https://translate.google.com';
 const q = alfy.input;
 
-// 简单正则，只要包含一个就是中文
-const isChinese = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
 var data = {
   from: {
-    lang: isChinese.test(q) ? 'zh-CN' : 'en',
+    lang: languagePair.get('source') || 'en',
     ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3",
     text: [],
     standard: ''
   },
   to: {
-    lang: isChinese.test(q) ? 'en' : 'zh-CN',
+    lang: languagePair.get('target') || 'en',
     ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3",
     text: [],
     standard: ''
@@ -28,7 +27,7 @@ var data = {
 }
 //文档上说cmd+L时会找largetype，找不到会找arg，但是实际并不生效。
 //同时下一步的发音模块中query变量的值为arg的值。
-translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
+translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain })
 .then(res => {
   var items = [];
   
@@ -38,10 +37,10 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
     .replace(/\[/, "")
     .replace(/\]/, "");
     
-    // 纠错的内容
+    // Correct
     items.push({
       title: res.text,
-      subtitle: `您要查询的是 ${corrected} 吗?`,
+      subtitle: `Show translation for ${corrected}?`,
       autocomplete: corrected
     });
     
@@ -58,16 +57,14 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
           indexOfStandard++;
         }
     });
-    const standard = rawObj[0][indexOfStandard];
-    
     data.from.standard = rawObj[0][indexOfStandard][3];
     data.to.standard = rawObj[0][indexOfStandard][2];
 
-    // 查询的内容
+    // Input
     items.push({
       title: data.from.text.join(' '),
-      subtitle: data.from.standard ? data.from.standard : '',
-      quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
+      subtitle: data.from.standard || '',
+      quicklookurl: `${domain}/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
       arg: data.from.ttsfile,
       text: {
         copy: data.from.text.join(' '),
@@ -78,11 +75,11 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
       }
     });
   
-    // 翻译的内容
+    // Translation
     items.push({
       title: data.to.text.join(' '),
-      subtitle: data.to.standard ? data.to.standard : '',
-      quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${data.to.lang}&tl=${data.from.lang}&text=${encodeURIComponent(data.to.text)}`,
+      subtitle: data.to.standard || '',
+      quicklookurl: `${domain}/#view=home&op=translate&sl=${data.to.lang}&tl=${data.from.lang}&text=${encodeURIComponent(data.to.text)}`,
       arg: data.to.ttsfile,
       text: {
         copy: data.to.text.join(' '),
@@ -93,35 +90,37 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
       }
     });
 
-    //英文定义, 英译英
+    // Definitions
     if (rawObj[12]) {
       rawObj[12].forEach(obj => {
-        const partOfSpeech = obj[0];
+        const partsOfSpeech = obj[0];
         obj[1].forEach(m => {
-          const [explain, nvl, example] = m;
+          const definitions = m[0];
+          const example = m[2];
           items.push({
-            title: explain,
-            subtitle: `英文解释 ${partOfSpeech} 示例: ${example ? example : "无"}`,
-            quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
+            title: `Definition[${partsOfSpeech}]: ${definitions}`,
+            subtitle: `Example: "${example || 'none'}"`,
+            quicklookurl: `${domain}/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
             text: {
-              copy: explain,
-              largetype: `${explain}\n\"${example ? example : ""}\"`
+              copy: definitions,
+              largetype: `Definitions: ${definitions}\nExample: "${example || 'none'}"`
             }
           });
         });
       });
     }
 
-    // 相关de翻译内容
+    // Translation Of
     if (rawObj[1]) {
       rawObj[1].forEach(obj => {
-        const partOfSpeech = obj[0];
+        const partsOfSpeech = obj[0];
         obj[2].forEach(x => {
-          const [text, relation, nvl, rate] = x;
+          const text = x[0];
+          const synonyms = x[1];
+          const frequency = x[3];
           items.push({
-            title: text,
-            subtitle: `频率: ${rate?rate.toFixed(4):"0.0000"} ${partOfSpeech} 同义词: ${relation ? relation.join(", ") : "无"}`,
-            autocomplete: text
+            title: `Translation[${partsOfSpeech}]: ${text}`,
+            subtitle: `Frequency: ${frequency ? frequency.toFixed(4) : '0.0000'} Synonyms: ${synonyms ? synonyms.join(', ') : 'none'}`
           });
         });
       });
@@ -131,18 +130,28 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
   alfy.output(items);
 })
 .then(function() {
-  // 获取发音
+  // tts
   createtts(data.from.text.reverse(), data.from.lang, data.from.ttsfile, true);
   createtts(data.to.text.reverse(), data.to.lang, data.to.ttsfile, true);
 })
-.catch(err => {
-  console.log(err);
+.catch(error => {
+  
+  alfy.output([{
+    title: `Error: maybe input wrong language [${data.from.lang}].`,
+    subtitle: `current language configuration [${data.from.lang}>${data.to.lang}], Press ⌘L to see the full error.`,
+    text: {
+			largetype: error.stack || error
+		},
+		icon: {
+			path: 'warn.png'
+		}
+  }]);
 });
 
 function createtts(data, lang, file, create) {
   var text = data.pop();
   if (!text) return;
-  tts(text, { to: lang })
+  tts(text, { to: lang, domain: domain })
   .then(buffer => {
     if (create) {
       fs.writeFile(file, buffer, function(err) {

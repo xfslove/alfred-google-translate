@@ -1,7 +1,7 @@
 {
   "name": "alfred-google-translate",
-  "version": "1.1.8",
-  "description": "Alfred 3 workflow to translate between zh-cn and en with google tanslate api",
+  "version": "2.0.0",
+  "description": "Alfred 3 workflow to translate with google tanslate api",
   "license": "MIT",
   "repository": "xfslove/alfred-google-translate",
   "author": {
@@ -25,6 +25,7 @@
     "index.js",
     "icon.png",
     "tts.png",
+    "warn.png",
     "info.plist"
   ],
   "keywords": [

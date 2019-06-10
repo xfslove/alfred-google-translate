@@ -8,33 +8,13 @@ var languages = require('./languages');
 function translate(text, opts) {
     opts = opts || {};
 
-    var e;
-    [opts.from, opts.to].forEach(function (lang) {
-        if (lang && !languages.isSupported(lang)) {
-            e = new Error();
-            e.code = 400;
-            e.message = 'The language \'' + lang + '\' is not supported';
-        }
-    });
-    if (e) {
-        return new Promise(function (resolve, reject) {
-            reject(e);
-        });
-    }
-
-    opts.from = opts.from || 'auto';
-    opts.to = opts.to || 'en';
-
-    opts.from = languages.getCode(opts.from);
-    opts.to = languages.getCode(opts.to);
-
-    return token.get(text).then(function (token) {
-        var url = 'https://translate.google.cn/translate_a/single';
+    return token.get(text, opts.domain).then(function (token) {
+        var url = opts.domain + '/translate_a/single';
         var data = {
             client: opts.client || 't',
             sl: opts.from,
             tl: opts.to,
-            hl: opts.to,
+            hl: opts.from,
             dt: ['at', 'bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't'],
             ie: 'UTF-8',
             oe: 'UTF-8',
