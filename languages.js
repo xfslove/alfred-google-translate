@@ -22,7 +22,6 @@ var langs = {
     'ca': 'Catalan',
     'ceb': 'Cebuano',
     'ny': 'Chichewa',
-    'zh': 'Chinese Simplified',
     'zh-cn': 'Chinese Simplified',
     'zh-tw': 'Chinese Traditional',
     'co': 'Corsican',

@@ -25,6 +25,7 @@
     "index.js",
     "icon.png",
     "tts.png",
+    "warn.png",
     "info.plist"
   ],
   "keywords": [
