@@ -169,5 +169,12 @@
 			<integer>160</integer>
 		</dict>
 	</dict>
+	<key>variables</key>
+	<dict>
+		<key>domain</key>
+		<string>https://translate.google.cn</string>
+	</dict>
+	<key>version</key>
+	<string></string>
 </dict>
 </plist>

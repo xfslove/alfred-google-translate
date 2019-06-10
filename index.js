@@ -4,23 +4,25 @@ const alfy = require('alfy');
 const tts = require("./tts");
 const translate = require("./translate");
 
+const Configstore = require('configstore');
+
 const os = require('os');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
+const languagePair = new Configstore('language-config-pair');
+const domain = process.env.domain || 'https://translate.google.com';
 const q = alfy.input;
 
-// 简单正则，只要包含一个就是中文
-const isChinese = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
 var data = {
   from: {
-    lang: isChinese.test(q) ? 'zh-CN' : 'en',
+    lang: languagePair.get('source') || 'en',
     ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3",
     text: [],
     standard: ''
   },
   to: {
-    lang: isChinese.test(q) ? 'en' : 'zh-CN',
+    lang: languagePair.get('target') || 'en',
     ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3",
     text: [],
     standard: ''
@@ -28,7 +30,7 @@ var data = {
 }
 //文档上说cmd+L时会找largetype，找不到会找arg，但是实际并不生效。
 //同时下一步的发音模块中query变量的值为arg的值。
-translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
+translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain })
 .then(res => {
   var items = [];
   
@@ -41,7 +43,7 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
     // 纠错的内容
     items.push({
       title: res.text,
-      subtitle: `您要查询的是 ${corrected} 吗?`,
+      subtitle: `show translation for ${corrected}?`,
       autocomplete: corrected
     });
     
@@ -66,8 +68,8 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
     // 查询的内容
     items.push({
       title: data.from.text.join(' '),
-      subtitle: data.from.standard ? data.from.standard : '',
-      quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
+      subtitle: data.from.standard || '',
+      quicklookurl: `${domain}/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
       arg: data.from.ttsfile,
       text: {
         copy: data.from.text.join(' '),
@@ -81,8 +83,8 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
     // 翻译的内容
     items.push({
       title: data.to.text.join(' '),
-      subtitle: data.to.standard ? data.to.standard : '',
-      quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${data.to.lang}&tl=${data.from.lang}&text=${encodeURIComponent(data.to.text)}`,
+      subtitle: data.to.standard || '',
+      quicklookurl: `${domain}/#view=home&op=translate&sl=${data.to.lang}&tl=${data.from.lang}&text=${encodeURIComponent(data.to.text)}`,
       arg: data.to.ttsfile,
       text: {
         copy: data.to.text.join(' '),
@@ -96,16 +98,16 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
     //英文定义, 英译英
     if (rawObj[12]) {
       rawObj[12].forEach(obj => {
-        const partOfSpeech = obj[0];
+        const partsOfSpeech = obj[0];
         obj[1].forEach(m => {
-          const [explain, nvl, example] = m;
+          const [definitions, nvl, example] = m;
           items.push({
-            title: explain,
-            subtitle: `英文解释 ${partOfSpeech} 示例: ${example ? example : "无"}`,
-            quicklookurl: `https://translate.google.cn/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
+            title: `Definition[${partsOfSpeech}]: ${definitions}`,
+            subtitle: `Example: "${example || 'none'}"`,
+            quicklookurl: `${domain}/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
             text: {
-              copy: explain,
-              largetype: `${explain}\n\"${example ? example : ""}\"`
+              copy: definitions,
+              largetype: `Definitions: ${definitions}\nExample: "${example || 'none'}"`
             }
           });
         });
@@ -115,13 +117,12 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
     // 相关de翻译内容
     if (rawObj[1]) {
       rawObj[1].forEach(obj => {
-        const partOfSpeech = obj[0];
+        const partsOfSpeech = obj[0];
         obj[2].forEach(x => {
-          const [text, relation, nvl, rate] = x;
+          const [text, synonyms, nvl, frequency] = x;
           items.push({
-            title: text,
-            subtitle: `频率: ${rate?rate.toFixed(4):"0.0000"} ${partOfSpeech} 同义词: ${relation ? relation.join(", ") : "无"}`,
-            autocomplete: text
+            title: `Translation[${partsOfSpeech}]: ${text}`,
+            subtitle: `Frequency: ${frequency ? frequency.toFixed(4) : '0.0000'} Synonyms: ${synonyms ? synonyms.join(', ') : 'none'}`
           });
         });
       });
@@ -142,7 +143,7 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang })
 function createtts(data, lang, file, create) {
   var text = data.pop();
   if (!text) return;
-  tts(text, { to: lang })
+  tts(text, { to: lang, domain: domain })
   .then(buffer => {
     if (create) {
       fs.writeFile(file, buffer, function(err) {

@@ -6,23 +6,9 @@ var languages = require('./languages');
 
 function tts(text, opts) {
     opts = opts || {};
-    var e;
-    if (opts.to && !languages.isSupported(opts.to)) {
-        e = new Error();
-        e.code = 400;
-        e.message = 'The language \'' + lang + '\' is not supported';
-    }
-    if (e) {
-        return new Promise(function (resolve, reject) {
-            reject(e);
-        });
-    }
 
-    opts.to = opts.to || 'en';
-    opts.to = languages.getCode(opts.to);
-
-    return token.get(text).then(function (token) {
-        var url = 'https://translate.google.cn/translate_tts';
+    return token.get(text, opts.domain).then(function (token) {
+        var url = opts.domain + '/translate_tts';
         var data = {
             client: opts.client || 't',
             tl: opts.to,
