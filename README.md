@@ -37,7 +37,7 @@ if You input wrong word, the workflow will correct your input, and You can press
 
 | name       | default value                | description                                                  |
 | ---------- | ---------------------------- | ------------------------------------------------------------ |
-| domain     | https://translate.google.com | if you cannot access the default domain, you can config this. 大陆访问不了默认域名，所以如果使用2.x版本需要将这个变量设置为https://translate.google.cn。或者还是使用[1.x版本](https://github.com/xfslove/alfred-google-translate/tree/v1.x) |
+| domain     | https://translate.google.com | if you cannot access the default domain, you can config this. 大陆访问不了默认域名，所以如果使用2.x版本需要将这个变量设置为https://translate.google.cn. 或者还是使用[1.x版本](https://github.com/xfslove/alfred-google-translate/tree/v1.x) |
 | read       | remote                       | avaliable values: remote: fetch voice from google, local: use macOS local voice (notice: maybe only works on English), none: dont get voice |
 | save_count | 20                           | limit count of translate history, see [alfred-translate-history](https://github.com/xfslove/alfred-translate-history), 0 means dont save translate history |
 
