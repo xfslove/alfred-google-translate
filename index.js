@@ -150,7 +150,7 @@ translate(data.input, { raw: true, from: data.from.lang, to: data.to.lang, domai
       to: data.to.text
     };
     var histories = history.get('history') ? JSON.parse(history.get('history')) : [];
-    if (histories.length > data.save) histories.shift();
+    if (histories.length >= data.save) histories.shift();
     histories.push(value);
     history.set('history', JSON.stringify(histories));
   }
