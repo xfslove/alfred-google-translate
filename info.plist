@@ -177,21 +177,6 @@ fi</string>
 			<integer>160</integer>
 		</dict>
 	</dict>
-	<key>variables</key>
-	<dict>
-		<key>domain</key>
-		<string>https://translate.google.cn</string>
-		<key>read</key>
-		<string>none</string>
-		<key>save_count</key>
-		<string>5</string>
-	</dict>
-	<key>variablesdontexport</key>
-	<array>
-		<string>save_count</string>
-		<string>read</string>
-		<string>domain</string>
-	</array>
 	<key>version</key>
 	<string></string>
 	<key>webaddress</key>
