@@ -146,8 +146,8 @@ translate(data.input, { raw: true, from: data.from.lang, to: data.to.lang, domai
   if (data.save > 0 && data.from.text.length > 0 && data.to.text.length > 0) {
     var value = {
       time: Date.now(),
-      from: data.from.text,
-      to: data.to.text
+      from: data.from.text.join(' '),
+      to: data.to.text.join(' ')
     };
     var histories = history.get('history') ? JSON.parse(history.get('history')) : [];
     if (histories.length >= data.save) histories.shift();
