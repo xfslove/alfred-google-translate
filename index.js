@@ -1,39 +1,40 @@
 "use strict";
-const alfy = require('alfy');
-const tts = require("./tts");
-const translate = require("./translate");
-const configstore = require('configstore');
-const os = require('os');
-const fs = require('fs');
-const uuidv4 = require('uuid/v4');
-
-const languagePair = new configstore('language-config-pair');
-const domain = process.env.domain || 'https://translate.google.com';
-const q = alfy.input;
+var alfy = require('alfy');
+var tts = require("./tts");
+var translate = require("./translate");
+var configstore = require('configstore');
+var os = require('os');
+var fs = require('fs');
+var uuidv4 = require('uuid/v4');
+var languagePair = new configstore('language-config-pair');
+var history = new configstore("translate-history");
 
 var data = {
+  read: process.env.read || 'remote',
+  save: process.env.save_count || 20,
+  domain: process.env.domain || 'https://translate.google.com',
+  input: alfy.input,
   from: {
     lang: languagePair.get('source') || 'en',
     ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3",
-    text: [],
-    standard: ''
+    text: []
   },
   to: {
     lang: languagePair.get('target') || 'en',
     ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3",
-    text: [],
-    standard: ''
+    text: []
   }
-}
+};
+
 //文档上说cmd+L时会找largetype，找不到会找arg，但是实际并不生效。
 //同时下一步的发音模块中query变量的值为arg的值。
-translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain })
-.then(res => {
+translate(data.input, { raw: true, from: data.from.lang, to: data.to.lang, domain: data.domain })
+.then(function (res) {
   var items = [];
   
   if (res.from.text.autoCorrected) {
     
-    const corrected = res.from.text.value
+    var corrected = res.from.text.value
     .replace(/\[/, "")
     .replace(/\]/, "");
     
@@ -46,9 +47,9 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain
     
   } else {
   
-    const rawObj = JSON.parse(res.raw);
+    var rawObj = JSON.parse(res.raw);
   
-    const translation = rawObj[0];
+    var translation = rawObj[0];
     var indexOfStandard = 0;
     translation.forEach(obj => {
         if (obj[0]) {
@@ -57,50 +58,55 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain
           indexOfStandard++;
         }
     });
-    data.from.standard = rawObj[0][indexOfStandard][3];
-    data.to.standard = rawObj[0][indexOfStandard][2];
+    var standard = rawObj[0][indexOfStandard];
 
+    var fromStandard = standard[3] || '';
+    var fromText = data.from.text.join(' ');
+    var fromArg = data.read === 'remote' ? data.from.ttsfile : data.read === 'local' ? fromText : '';
     // Input
     items.push({
-      title: data.from.text.join(' '),
-      subtitle: data.from.standard || '',
-      quicklookurl: `${domain}/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
-      arg: data.from.ttsfile,
+      title: fromText,
+      subtitle: fromStandard,
+      quicklookurl: `${data.domain}/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
+      arg: fromArg,
       text: {
-        copy: data.from.text.join(' '),
-        largetype: data.from.text.join(' ')
+        copy: fromText,
+        largetype: fromText
       },
       icon: {
-        path: 'tts.png'
+        path: data.read === 'none'? 'icon.png' : 'tts.png'
       }
     });
-  
+
+    var toStandard = standard[2] || '';
+    var toText = data.to.text.join(' ');
+    var toArg = data.read === 'remote' ? data.to.ttsfile : data.read === 'local' ? toText : '';
     // Translation
     items.push({
-      title: data.to.text.join(' '),
-      subtitle: data.to.standard || '',
-      quicklookurl: `${domain}/#view=home&op=translate&sl=${data.to.lang}&tl=${data.from.lang}&text=${encodeURIComponent(data.to.text)}`,
-      arg: data.to.ttsfile,
+      title: toText,
+      subtitle: toStandard,
+      quicklookurl: `${data.domain}/#view=home&op=translate&sl=${data.to.lang}&tl=${data.from.lang}&text=${encodeURIComponent(data.to.text)}`,
+      arg: toArg,
       text: {
-        copy: data.to.text.join(' '),
-        largetype: data.to.text.join(' ')
+        copy: toText,
+        largetype: toText
       },
       icon: {
-        path: 'tts.png'
+        path: data.read === 'none'? 'icon.png' : 'tts.png'
       }
     });
 
     // Definitions
     if (rawObj[12]) {
       rawObj[12].forEach(obj => {
-        const partsOfSpeech = obj[0];
-        obj[1].forEach(m => {
-          const definitions = m[0];
-          const example = m[2];
+        var partsOfSpeech = obj[0];
+        obj[1].forEach(x => {
+          var definitions = x[0];
+          var example = x[2];
           items.push({
             title: `Definition[${partsOfSpeech}]: ${definitions}`,
             subtitle: `Example: "${example || 'none'}"`,
-            quicklookurl: `${domain}/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
+            quicklookurl: `${data.domain}/#view=home&op=translate&sl=${data.from.lang}&tl=${data.to.lang}&text=${encodeURIComponent(data.from.text)}`,
             text: {
               copy: definitions,
               largetype: `Definitions: ${definitions}\nExample: "${example || 'none'}"`
@@ -113,14 +119,18 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain
     // Translation Of
     if (rawObj[1]) {
       rawObj[1].forEach(obj => {
-        const partsOfSpeech = obj[0];
+        var partsOfSpeech = obj[0];
         obj[2].forEach(x => {
-          const text = x[0];
-          const synonyms = x[1];
-          const frequency = x[3];
+          var text = x[0];
+          var synonyms = x[1];
+          var frequency = x[3];
           items.push({
             title: `Translation[${partsOfSpeech}]: ${text}`,
-            subtitle: `Frequency: ${frequency ? frequency.toFixed(4) : '0.0000'} Synonyms: ${synonyms ? synonyms.join(', ') : 'none'}`
+            subtitle: `Frequency: ${frequency ? frequency.toFixed(4) : '0.0000'} Synonyms: ${synonyms ? synonyms.join(', ') : 'none'}`,
+            text: {
+              copy: text,
+              largetype: `${text}\nSynonyms: ${synonyms ? synonyms.join(', ') : 'none'}`
+            }
           });
         });
       });
@@ -128,11 +138,31 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain
   }
   
   alfy.output(items);
+  
+  return data;
 })
-.then(function() {
+.then(function (data) {
+  // history
+  if (data.save > 0 && data.from.text.length > 0 && data.to.text.length > 0) {
+    var value = {
+      time: Date.now(),
+      from: data.from.text.join(' '),
+      to: data.to.text.join(' ')
+    };
+    var histories = history.get('history') ? JSON.parse(history.get('history')) : [];
+    if (histories.length >= data.save) histories.shift();
+    histories.push(value);
+    history.set('history', JSON.stringify(histories));
+  }
+
+  return data;
+})
+.then(data => {
   // tts
-  createtts(data.from.text.reverse(), data.from.lang, data.from.ttsfile, true);
-  createtts(data.to.text.reverse(), data.to.lang, data.to.ttsfile, true);
+  if (data.read === 'remote') {
+    createtts(data.domain, data.from.text.reverse(), data.from.lang, data.from.ttsfile, true);
+    createtts(data.domain, data.to.text.reverse(), data.to.lang, data.to.ttsfile, true);
+  }
 })
 .catch(error => {
   
@@ -140,15 +170,15 @@ translate(q, { raw: true, from: data.from.lang, to: data.to.lang, domain: domain
     title: `Error: maybe input wrong language [${data.from.lang}].`,
     subtitle: `current language configuration [${data.from.lang}>${data.to.lang}], Press ⌘L to see the full error.`,
     text: {
-			largetype: error.stack || error
-		},
-		icon: {
-			path: 'warn.png'
-		}
+        largetype: error.stack || error
+    },
+    icon: {
+        path: 'warn.png'
+    }
   }]);
 });
 
-function createtts(data, lang, file, create) {
+function createtts(domain, data, lang, file, create) {
   var text = data.pop();
   if (!text) return;
   tts(text, { to: lang, domain: domain })
@@ -156,12 +186,12 @@ function createtts(data, lang, file, create) {
     if (create) {
       fs.writeFile(file, buffer, function(err) {
         if (err) throw err;
-        createtts(data, lang, file, false);
+        createtts(domain, data, lang, file, false);
       });
     } else {
       fs.appendFile(file, buffer, function(err) {
         if (err) throw err;
-        createtts(data, lang, file, false);
+        createtts(domain, data, lang, file, false);
       });
     }
   });

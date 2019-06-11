@@ -6,21 +6,9 @@
 *Requires [Node.js](https://nodejs.org) 4+ and the Alfred [Powerpack](https://www.alfredapp.com/powerpack/).*
 
 - install with `npm install -g alfred-google-translate`
-- or [download](https://github.com/xfslove/alfred-google-translate/releases/tag/v2.0.0) workflow
+- or [download](https://github.com/xfslove/alfred-google-translate/releases/tag/v2.0.1) workflow
 
 ## [Changelog](https://github.com/xfslove/alfred-google-translate/releases)
-
-## Notice
-
-for chinese.
-
-2.x版本是支持多种语言翻译的，所以翻译所使用的域名为`translate.google.com`，这个域名目前在大陆无法访问。
-
-因此可以继续使用[1.x版本](https://github.com/xfslove/alfred-google-translate/tree/v1.x).
-
-如果使用2.x版本，需在workflow的环境变量中加入`domain=translate.google.cn`，如下：
-
-![domain.gif](media/domain.gif)
 
 ## Usage
 
@@ -28,7 +16,7 @@ Before using this workflow, You must config the language pair. see [alfred-langu
 
 Alfred workflow Keyword `tr`.
 
-the items explain:
+the shown items explain:
 
 The first item is input word or sentence (webster phonetic if avaliable).
 
@@ -45,11 +33,29 @@ at the first and second item You can:
 
 if You input wrong word, the workflow will correct your input, and You can press  <kbd>enter</kbd> to see.
 
+## Environment Variables
+
+| name       | default value                | description                                                  |
+| ---------- | ---------------------------- | ------------------------------------------------------------ |
+| domain     | https://translate.google.com | if you cannot access the default domain, you can config this. 大陆访问不了默认域名，所以如果使用2.x版本需要将这个变量设置为https://translate.google.cn。或者还是使用[1.x版本](https://github.com/xfslove/alfred-google-translate/tree/v1.x) |
+| read       | remote                       | avaliable values: remote: fetch voice from google, local: use macOS local voice (notice: maybe only works on English), none: dont get voice |
+| save_count | 20                           | limit count of translate history, see [alfred-translate-history](https://github.com/xfslove/alfred-translate-history) |
+
+##### environment variables config snapshot:
+
+![env-config.png](media/env-config.png)
+
+![env.png](media/env.png)
+
 ## Hotkey
 
-if you download the workflow, you may lost the hotkey, so you can manual config this, like:
+if you download the workflow, you may lost the hotkey, so you can manual config this.
 
-![hotkey](media/hotkey.gif)
+##### hotkey config snapshot:
+
+![hotkey.png](media/hotkey.png)
+
+![hotkey-config.png](media/hotkey-config.png)
 
 ##### hotkey and largetype snapshot:
 
