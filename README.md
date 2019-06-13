@@ -22,7 +22,7 @@ The first item is input word or sentence (webster phonetic if avaliable).
 
 The second item is translation of input (webster phonetic if avaliable).
 
-The reset of items are Definitions and Translations of input.
+The rest of items are Definitions and Translations of input.
 
 at the first and second item You can:
 
