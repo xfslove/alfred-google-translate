@@ -7,6 +7,7 @@
 
 var got = require('got');
 var Configstore = require('configstore');
+var agent = require('./agent')
 
 /* eslint-disable */
 // BEGIN
@@ -80,7 +81,7 @@ function updateTKK(domain) {
         if (Number(window.TKK.split('.')[0]) === now) {
             resolve();
         } else {
-            got(domain).then(function (res) {
+            got(domain, {agent: agent}).then(function (res) {
                 var matches = res.body.match(/tkk:\s?'(.+?)'/i);
 
                 if (matches) {
