@@ -3,6 +3,7 @@ var got = require('got');
 
 var token = require('./token');
 var languages = require('./languages');
+var agent = require('./agent')
 
 function tts(text, opts) {
     opts = opts || {};
@@ -21,7 +22,7 @@ function tts(text, opts) {
         data[token.name] = token.value;
         return url + '?' + querystring.stringify(data);
     }).then(function (url) {
-        return got(url, {encoding: null}).then(function (res) {
+        return got(url, {encoding: null, agent: agent}).then(function (res) {
           
             return res.body;
             
