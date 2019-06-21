@@ -40,7 +40,6 @@ if You input wrong word, the workflow will correct your input, and You can press
 | domain     | https://translate.google.com | if you cannot access the default domain, you can config this. <br />大陆访问不了默认域名，所以如果使用2.x版本需要将这个变量设置为https://translate.google.cn. 或者还是使用[1.x版本](https://github.com/xfslove/alfred-google-translate/tree/v1.x) |
 | read       | remote                       | avaliable values: <br />remote: fetch voice from google, <br />local: use macOS local voice (notice: maybe only works on English),<br />none: dont get voice |
 | save_count | 20                           | limit count of translate history, see [alfred-translate-history](https://github.com/xfslove/alfred-translate-history).  <br />0 means dont save translate history |
-| socks_proxy | undefined             | not turned by default. if you still cannot access after you config domain as https://translate.google.cn, you can specify local or remote socks proxy. format: `socks://{host}:{port}` example: local shadowsocks proxy 'socks://127.0.0.1:1086' |
 
 ##### environment variables config snapshot:
 
