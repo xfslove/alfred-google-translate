@@ -4,7 +4,6 @@ var got = require('got');
 
 var token = require('./token');
 var languages = require('./languages');
-var agent = require('./agent');
 
 function translate(text, opts) {
     opts = opts || {};
@@ -28,7 +27,7 @@ function translate(text, opts) {
         data[token.name] = token.value;
         return url + '?' + querystring.stringify(data);
     }).then(function (url) {
-        return got(url, {agent: agent}).then(function (res) {
+        return got(url).then(function (res) {
             var result = {
                 text: '',
                 from: {
