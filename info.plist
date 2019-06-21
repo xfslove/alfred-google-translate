@@ -86,7 +86,7 @@
 				<key>script</key>
 				<string>if [ "$read" = "local" ];then
 say {query} -v Samantha
-elif [ "$read" = "remote" ];then
+else
 afplay {query}
 fi</string>
 				<key>scriptargtype</key>
