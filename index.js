@@ -58,7 +58,7 @@ translate(data.input, { raw: true, from: data.from.lang, to: data.to.lang, domai
           indexOfStandard++;
         }
     });
-    var standard = rawObj[0][indexOfStandard];
+    var standard = rawObj[0][indexOfStandard] || [];
 
     var fromStandard = standard[3] || '';
     var fromText = data.from.text.join(' ');
