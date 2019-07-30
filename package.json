@@ -1,6 +1,6 @@
 {
   "name": "alfred-google-translate",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Alfred 3 workflow to translate with google translate api",
   "license": "MIT",
   "repository": "xfslove/alfred-google-translate",
