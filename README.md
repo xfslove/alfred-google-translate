@@ -6,7 +6,7 @@
 *Requires [Node.js](https://nodejs.org) 4+ and the Alfred [Powerpack](https://www.alfredapp.com/powerpack/).*
 
 - install with `npm install -g alfred-google-translate`
-- or [download](https://github.com/xfslove/alfred-google-translate/releases/tag/v2.0.3) workflow
+- or [download](https://github.com/xfslove/alfred-google-translate/releases/tag/v2.0.4) workflow
 
 ## [Changelog](https://github.com/xfslove/alfred-google-translate/releases)
 
