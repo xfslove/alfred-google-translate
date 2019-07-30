@@ -177,6 +177,15 @@ fi</string>
 			<integer>160</integer>
 		</dict>
 	</dict>
+	<key>variables</key>
+	<dict>
+		<key>domain</key>
+		<string>https://translate.google.cn</string>
+		<key>save_count</key>
+		<string>20</string>
+		<key>voice</key>
+		<string>none</string>
+	</dict>
 	<key>version</key>
 	<string></string>
 	<key>webaddress</key>
