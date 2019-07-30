@@ -6,7 +6,7 @@
 *Requires [Node.js](https://nodejs.org) 4+ and the Alfred [Powerpack](https://www.alfredapp.com/powerpack/).*
 
 - install with `npm install -g alfred-google-translate`
-- or [download](https://github.com/xfslove/alfred-google-translate/releases/tag/v2.0.1) workflow
+- or [download](https://github.com/xfslove/alfred-google-translate/releases/tag/v2.0.3) workflow
 
 ## [Changelog](https://github.com/xfslove/alfred-google-translate/releases)
 
@@ -38,7 +38,7 @@ if You input wrong word, the workflow will correct your input, and You can press
 | name       | default value                | description                                                  |
 | ---------- | ---------------------------- | ------------------------------------------------------------ |
 | domain     | https://translate.google.com | if you cannot access the default domain, you can config this. <br />大陆访问不了默认域名，所以如果使用2.x版本需要将这个变量设置为https://translate.google.cn. 或者还是使用[1.x版本](https://github.com/xfslove/alfred-google-translate/tree/v1.x) |
-| read       | remote                       | avaliable values: <br />remote: fetch voice from google, <br />local: use macOS local voice (notice: maybe only works on English),<br />none: dont get voice |
+| voice      | remote                       | avaliable values: <br />remote: fetch voice from google, <br />local: use macOS local voice (notice: maybe only works on English),<br />none: dont get voice |
 | save_count | 20                           | limit count of translate history, see [alfred-translate-history](https://github.com/xfslove/alfred-translate-history).  <br />0 means dont save translate history |
 
 ##### environment variables config snapshot:
