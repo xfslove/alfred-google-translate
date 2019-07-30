@@ -12,7 +12,7 @@
 
 ## Usage
 
-Before using this workflow, You must config the language pair. see [alfred-language-configuration](https://github.com/xfslove/alfred-language-configuration)
+Before using this workflow, You must config the language pair. see [alfred-language-configuration](https://github.com/xfslove/alfred-language-configuration), (btw, [#36](https://github.com/xfslove/alfred-google-translate/issues/36))
 
 Alfred workflow Keyword `tr`.
 
