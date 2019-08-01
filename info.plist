@@ -84,7 +84,7 @@
 				<key>escaping</key>
 				<integer>0</integer>
 				<key>script</key>
-				<string>if [ "$read" = "local" ];then
+				<string>if [ "$voice" = "local" ];then
 say {query} -v Samantha
 else
 afplay {query}
