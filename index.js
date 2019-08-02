@@ -82,7 +82,7 @@ function doTranslate() {
                 // Input
                 items.push({
                     title: fromText,
-                    subtitle: `Phonetic: ${fromPhonetic || ''}`,
+                    subtitle: `Phonetic: ${fromPhonetic}`,
                     quicklookurl: `${g_config.domain}/#view=home&op=translate&sl=${g_config.from.lang}&tl=${g_config.to.lang}&text=${encodeURIComponent(fromText)}`,
                     arg: fromArg,
                     text: {
@@ -100,7 +100,7 @@ function doTranslate() {
                 // Translation
                 items.push({
                     title: toText,
-                    subtitle: `Phonetic: ${toPhonetic || ''}`,
+                    subtitle: `Phonetic: ${toPhonetic}`,
                     quicklookurl: `${g_config.domain}/#view=home&op=translate&sl=${g_config.to.lang}&tl=${g_config.from.lang}&text=${encodeURIComponent(toText)}`,
                     arg: toArg,
                     text: {
@@ -113,33 +113,28 @@ function doTranslate() {
                 });
 
                 // Definitions
-                if (res.to.definitions.length > 0) {
-                    res.to.definitions.forEach(definition => {
-                        items.push({
-                            title: `Definition[${definition.partsOfSpeech}]: ${definition.value}`,
-                            subtitle: `Example: ${definition.example || ''}`,
-                            quicklookurl: `${g_config.domain}/#view=home&op=translate&sl=${g_config.from.lang}&tl=${g_config.to.lang}&text=${encodeURIComponent(fromText)}`,
-                            text: {
-                                copy: definition.value,
-                                largetype: `Definitions: ${definition.value}\n\nExample: ${definition.example || ''}`
-                            }
-                        });
+                res.to.definitions.forEach(definition => {
+                    items.push({
+                        title: `Definition[${definition.partsOfSpeech}]: ${definition.value}`,
+                        subtitle: `Example: ${definition.example}`,
+                        text: {
+                            copy: definition.value,
+                            largetype: `Definition: ${definition.value}\n\nExample: ${definition.example}`
+                        }
                     });
-                }
+                });
 
                 // Translation Of
-                if (res.to.translations.length > 0) {
-                    res.to.translations.forEach(translation => {
-                        items.push({
-                            title: `Translation[${translation.partsOfSpeech}]: ${translation.value}`,
-                            subtitle: `Frequency: ${translation.frequency ? translation.frequency.toFixed(4) : '0.0000'} Synonyms: ${translation.synonyms ? translation.synonyms.join(', ') : ''}`,
-                            text: {
-                                copy: translation.value,
-                                largetype: `${translation.value}\n\nSynonyms: ${translation.synonyms ? translation.synonyms.join(', ') : ''}`
-                            }
-                        });
+                res.to.translations.forEach(translation => {
+                    items.push({
+                        title: `Translation[${translation.partsOfSpeech}]: ${translation.value}`,
+                        subtitle: `Frequency: ${translation.frequency.toFixed(4)} Synonyms: ${translation.synonyms}`,
+                        text: {
+                            copy: translation.value,
+                            largetype: `Translation: ${translation.value}\n\nSynonyms: ${translation.synonyms}`
+                        }
                     });
-                }
+                });
             }
 
             alfy.output(items);

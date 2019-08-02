@@ -42,14 +42,14 @@ function translate(text, opts) {
                     text: {
                         array: [],
                         value: '',
-                        phonetic: null
+                        phonetic: ''
                     }
                 },
                 to: {
                     text: {
                         array: [],
                         value: '',
-                        phonetic: null
+                        phonetic: ''
                     },
                     translations: [],
                     definitions: []
@@ -107,9 +107,9 @@ function translate(text, opts) {
                     var partsOfSpeech = obj[0];
                     obj[1].forEach(function (obj) {
                         result.to.definitions.push({
-                            partsOfSpeech: partsOfSpeech,
-                            value: obj[0],
-                            example: obj[2]
+                            partsOfSpeech: partsOfSpeech || '',
+                            value: obj[0] || '',
+                            example: obj[2] || ''
                         });
                     });
                 });
@@ -121,10 +121,10 @@ function translate(text, opts) {
                     var partsOfSpeech = obj[0];
                     obj[2].forEach(function (obj) {
                         result.to.translations.push({
-                            partsOfSpeech: partsOfSpeech,
-                            value: obj[0],
-                            synonyms: obj[1],
-                            frequency: obj[3]
+                            partsOfSpeech: partsOfSpeech || '',
+                            value: obj[0] || '',
+                            synonyms: obj[1] || [],
+                            frequency: obj[3] || 0.0000
                         });
                     });
                 });
