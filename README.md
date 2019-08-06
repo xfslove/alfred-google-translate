@@ -1,6 +1,10 @@
 # alfred-google-translate
 [![NPM](https://nodei.co/npm/alfred-google-translate.png)](https://nodei.co/npm/alfred-google-translate/)
 
+### JetBrains' support
+
+[![jetbrain](media/jetbrains.svg)](https://www.jetbrains.com/?from=alfred-google-translate)
+
 ## Install
 
 *Requires [Node.js](https://nodejs.org) 4+ and the Alfred [Powerpack](https://www.alfredapp.com/powerpack/).*
