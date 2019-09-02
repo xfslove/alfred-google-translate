@@ -10,7 +10,7 @@
     "url": "https://github.com/xfslove/alfred-google-translate"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=8"
   },
   "scripts": {
     "test": "xo && ava",
