@@ -5,7 +5,7 @@ var token = require('./token');
 var languages = require('./languages');
 
 // copy from https://github.com/zlargon/google-tts/blob/master/example/long-english-characters.js
-// could be optimized
+// todo: could be optimized
 function split(text) {
     const MAX = 200;  // Max string length
 
