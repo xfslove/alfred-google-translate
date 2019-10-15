@@ -28,7 +28,7 @@ if (pair) {
     // auto
     // language detect
     translator
-        .translate(g_config.input, {from: g_config.from.lang, to: g_config.to.lang, domain: g_config.domain})
+        .translate(g_config.input, {from: g_config.from.lang, to: g_config.to.lang, domain: g_config.domain, client: 'gtx'})
         .then(function (res) {
             var detect = res.from.language.iso;
             if (pair[0] === detect) {
@@ -57,7 +57,7 @@ function doTranslate() {
     //文档上说cmd+L时会找largetype，找不到会找arg，但是实际并不生效。
     //同时下一步的发音模块中query变量的值为arg的值。
     translator
-        .translate(g_config.input, {from: g_config.from.lang, to: g_config.to.lang, domain: g_config.domain})
+        .translate(g_config.input, {from: g_config.from.lang, to: g_config.to.lang, domain: g_config.domain, client: 'gtx'})
         .then(function (res) {
             var items = [];
 
