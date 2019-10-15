@@ -11,53 +11,94 @@ var history = new configstore("translate-history");
 var g_config = {
     voice: process.env.voice || 'remote',
     save: process.env.save_count || 20,
-    domain: process.env.domain || 'https://translate.google.com',
-    input: alfy.input,
-    from: {
-        lang: 'auto',
-        ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3"
-    },
-    to: {
-        lang: 'en',
-        ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3"
-    }
+    domain: process.env.domain || 'https://translate.google.com'
 };
 
 var pair = languagePair.get('pair');
 if (pair) {
     // auto
+    var pair0 = pair[0];
+    var pair1 = pair[1];
+    if (pair0 === 'auto' || pair1 === 'auto') {
+        doTranslate({
+            text: alfy.input,
+            from: {
+                language: 'auto',
+                ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3"
+            },
+            to: {
+                language: 'en',
+                ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3"
+            }
+        });
+        return;
+    }
     // language detect
     translator
-        .translate(g_config.input, {from: g_config.from.lang, to: g_config.to.lang, domain: g_config.domain})
+        .translate(alfy.input, {
+            from: 'auto',
+            to: 'en',
+            domain: g_config.domain,
+            client: 'gtx'
+        })
         .then(function (res) {
             var detect = res.from.language.iso;
-            if (pair[0] === detect) {
-                g_config.from.lang = pair[0];
-                g_config.to.lang = pair[1];
-            } else if (pair[1] === detect) {
-                g_config.from.lang = pair[1];
-                g_config.to.lang = pair[0];
+            var from, to;
+            if (pair0 === detect) {
+                from = pair0;
+                to = pair1;
+            } else if (pair1 === detect) {
+                from = pair1;
+                to = pair0;
             }
 
-            doTranslate();
+            doTranslate({
+                text: alfy.input,
+                from: {
+                    language: from,
+                    ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3"
+                },
+                to: {
+                    language: to,
+                    ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3"
+                }
+            });
         });
 
-    return;
 } else {
     // manual
-    if (languagePair.get('source') && languagePair.get('target')) {
-        g_config.from.lang = languagePair.get('source');
-        g_config.to.lang = languagePair.get('target');
+    var source = languagePair.get('source');
+    var target = languagePair.get('target');
+    var from = 'auto';
+    var to = 'en';
+    if (source && target) {
+        from = source;
+        to = target;
     }
 
-    doTranslate();
+    doTranslate({
+        text: alfy.input,
+        from: {
+            language: from,
+            ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3"
+        },
+        to: {
+            language: to,
+            ttsfile: os.tmpdir() + '/' + uuidv4() + ".mp3"
+        }
+    });
 }
 
-function doTranslate() {
+function doTranslate(opts) {
     //文档上说cmd+L时会找largetype，找不到会找arg，但是实际并不生效。
     //同时下一步的发音模块中query变量的值为arg的值。
     translator
-        .translate(g_config.input, {from: g_config.from.lang, to: g_config.to.lang, domain: g_config.domain})
+        .translate(opts.text, {
+            from: opts.from.language,
+            to: opts.to.language,
+            domain: g_config.domain,
+            client: 'gtx'
+        })
         .then(function (res) {
             var items = [];
 
@@ -78,12 +119,12 @@ function doTranslate() {
 
                 var fromPhonetic = res.from.text.phonetic;
                 var fromText = res.from.text.value;
-                var fromArg = g_config.voice === 'remote' ? g_config.from.ttsfile : g_config.voice === 'local' ? fromText : '';
+                var fromArg = g_config.voice === 'remote' ? opts.from.ttsfile : g_config.voice === 'local' ? fromText : '';
                 // Input
                 items.push({
                     title: fromText,
                     subtitle: `Phonetic: ${fromPhonetic}`,
-                    quicklookurl: `${g_config.domain}/#view=home&op=translate&sl=${g_config.from.lang}&tl=${g_config.to.lang}&text=${encodeURIComponent(fromText)}`,
+                    quicklookurl: `${g_config.domain}/#view=home&op=translate&sl=${opts.from.language}&tl=${opts.to.language}&text=${encodeURIComponent(fromText)}`,
                     arg: fromArg,
                     text: {
                         copy: fromText,
@@ -96,12 +137,12 @@ function doTranslate() {
 
                 var toPhonetic = res.to.text.phonetic;
                 var toText = res.to.text.value;
-                var toArg = g_config.voice === 'remote' ? g_config.to.ttsfile : g_config.voice === 'local' ? toText : '';
+                var toArg = g_config.voice === 'remote' ? opts.to.ttsfile : g_config.voice === 'local' ? toText : '';
                 // Translation
                 items.push({
                     title: toText,
                     subtitle: `Phonetic: ${toPhonetic}`,
-                    quicklookurl: `${g_config.domain}/#view=home&op=translate&sl=${g_config.to.lang}&tl=${g_config.from.lang}&text=${encodeURIComponent(toText)}`,
+                    quicklookurl: `${g_config.domain}/#view=home&op=translate&sl=${opts.to.language}&tl=${opts.from.language}&text=${encodeURIComponent(toText)}`,
                     arg: toArg,
                     text: {
                         copy: toText,
@@ -139,10 +180,12 @@ function doTranslate() {
 
             alfy.output(items);
 
+            res.from.language.ttsfile = opts.from.ttsfile;
+            res.to.language = {iso: opts.to.language, ttsfile: opts.to.ttsfile};
             return res;
         })
         .then(res => {
-            // history
+            // history, todo: could be optimized
             if (g_config.save > 0) {
                 var value = {
                     time: Date.now(),
@@ -162,11 +205,20 @@ function doTranslate() {
             if (g_config.voice === 'remote') {
                 var fromArray = [];
                 res.from.text.array.forEach(o => tts.split(o).forEach(t => fromArray.push(t)));
-                tts.multi(fromArray, {to: g_config.from.lang, domain: g_config.domain, file: g_config.from.ttsfile});
-
+                tts.multi(fromArray, {
+                    to: res.from.language.iso,
+                    domain: g_config.domain,
+                    file: res.from.language.ttsfile,
+                    client: 'gtx'
+                });
                 var toArray = [];
                 res.to.text.array.forEach(o => tts.split(o).forEach(t => toArray.push(t)));
-                tts.multi(toArray, {to: g_config.to.lang, domain: g_config.domain, file: g_config.to.ttsfile});
+                tts.multi(toArray, {
+                    to: res.to.language.iso,
+                    domain: g_config.domain,
+                    file: res.to.language.ttsfile,
+                    client: 'gtx'
+                });
             }
         })
     ;
