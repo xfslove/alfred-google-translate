@@ -10,7 +10,7 @@
 *Requires [Node.js](https://nodejs.org) 8+ and the Alfred 3 or 4 [Powerpack](https://www.alfredapp.com/powerpack/).*
 
 - install with `npm install -g alfred-google-translate`
-- or [download](https://github.com/xfslove/alfred-google-translate/releases/tag/v2.0.6) workflow
+- or [download](https://github.com/xfslove/alfred-google-translate/releases/tag/v2.0.8) workflow
 
 ## [Changelog](https://github.com/xfslove/alfred-google-translate/releases)
 
@@ -70,6 +70,8 @@ if you download the workflow, you may lost the hotkey, so you can manual config 
 ## Snapshot
 
 - correct
+
+  ![](media/detect-lang.png)
 
   ![corrected.png](media/corrected.png)
 
