@@ -7,6 +7,7 @@ var os = require('os');
 var uuidv4 = require('uuid/v4');
 var languagePair = new configstore('language-config-pair');
 var history = new configstore("translate-history");
+var languages = require("./languages");
 
 var g_config = {
     voice: process.env.voice || 'remote',
@@ -43,7 +44,8 @@ if (pair) {
         })
         .then(function (res) {
             var detect = res.from.language.iso;
-            var from, to;
+            var from = 'auto';
+            var to = 'en';
             if (pair0 === detect) {
                 from = pair0;
                 to = pair1;
@@ -102,7 +104,14 @@ function doTranslate(opts) {
         .then(function (res) {
             var items = [];
 
-            if (res.from.corrected.corrected || res.from.corrected.didYouMean) {
+            if ('auto' === opts.from.language || res.from.language.didYouMean) {
+                // Detected the input language not in configuration
+                items.push({
+                    title: res.to.text.value,
+                    subtitle: `Detected the input language is ${languages[res.from.language.iso]}, not one of your configuration.`
+                });
+
+            } else if (res.from.corrected.corrected || res.from.corrected.didYouMean) {
 
                 var corrected = res.from.corrected.value
                     .replace(/\[/, "")
