@@ -44,7 +44,7 @@
   "devDependencies": {
     "alfy-test": "^0.3.0",
     "puppeteer": "^1.11.0",
-    "codecov": "^1.0.1",
+    "codecov": "^3.6.5",
     "coveralls": "^2.11.11",
     "nyc": "^7.0.0",
     "ava": "*",
