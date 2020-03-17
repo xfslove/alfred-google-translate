@@ -5,45 +5,43 @@
 
 [![jetbrain](media/jetbrains.svg)](https://www.jetbrains.com/?from=alfred-google-translate)
 
-## Install
+## Installation
 
-*Requires [Node.js](https://nodejs.org) 8+ and the Alfred 3 or 4 [Powerpack](https://www.alfredapp.com/powerpack/).*
+*Requires the Alfred 3 or 4 [Powerpack](https://www.alfredapp.com/powerpack/), [Node.js](https://nodejs.org) 8+, and the [alfred-language-configuration](https://github.com/xfslove/alfred-language-configuration) workflow.*
 
-- install with `npm install -g alfred-google-translate`
-- or [download](https://github.com/xfslove/alfred-google-translate/releases/tag/v2.0.8) workflow
+To use this workflow you must also install the [alfred-language-configuration](https://github.com/xfslove/alfred-language-configuration) workflow, and configure the language pair. See that [README](https://github.com/xfslove/alfred-language-configuration) for instructions.
 
-## [Changelog](https://github.com/xfslove/alfred-google-translate/releases)
+### With NPM
+- Install with `npm install -g alfred-google-translate`.
+
+### Manually
+- Or [download the workflow directly](https://github.com/xfslove/alfred-google-translate/releases/tag/v2.0.8).
+
+## Changelog
+See [all past and current releases](https://github.com/xfslove/alfred-google-translate/releases).
 
 ## Usage
 
-Before using this workflow, You must config the language pair. see [alfred-language-configuration](https://github.com/xfslove/alfred-language-configuration), (**The Language Auto Detected** btw, [#36](https://github.com/xfslove/alfred-google-translate/issues/36))
+Alfred workflow Keyword: `tr [word or sentence]`
+Example: `tr kitchen sink` or `tr Hello, my name is Alfred`
 
-Alfred workflow Keyword `tr`.
+When translating a word you will see the translation as well as alternate translations if available.
 
-the shown items explain:
-
-The first item is input word or sentence (webster phonetic if avaliable).
-
-The second item is translation of input (webster phonetic if avaliable).
-
-The rest of items are Definitions and Translations of input.
-
-at the first and second item You can:
-
+With the first two results (which are the input word and the translation) you can…
 - press <kbd>enter</kbd> to read the item.
 - press <kbd>cmd</kbd>+<kbd>C</kbd> to copy the item.
 - press <kbd>shift</kbd> open the translate website.
-- press <kbd>cmd</kbd>+<kbd>L</kbd> to see the full content.
+- press <kbd>cmd</kbd>+<kbd>L</kbd> to show the translation in large text.
 
-if You input wrong word, the workflow will correct your input, and You can press  <kbd>enter</kbd> to see.
+The workflow will attempt to correct spelling mistakes which can be accepted with <kbd>enter</kbd>.
 
 ## Environment Variables
 
 | name       | default value                | description                                                  |
 | ---------- | ---------------------------- | ------------------------------------------------------------ |
 | domain     | https://translate.google.com | if you cannot access the default domain, you can config this. <br />大陆访问不了默认域名，所以如果使用2.x版本需要将这个变量设置为https://translate.google.cn. 或者还是使用[1.x版本](https://github.com/xfslove/alfred-google-translate/tree/v1.x) |
-| voice      | remote                       | avaliable values: <br />remote: fetch voice from google, <br />local: use macOS local voice (notice: maybe only works on English),<br />none: dont get voice |
-| save_count | 20                           | limit count of translate history, see [alfred-translate-history](https://github.com/xfslove/alfred-translate-history).  <br />0 means dont save translate history |
+| voice      | remote                       | avaliable values: <br />remote: fetch voice from google, <br />local: use macOS local voice (notice: maybe only works on English),<br />none: dont use voice |
+| save_count | 20                           | limit the translation history, see [alfred-translate-history](https://github.com/xfslove/alfred-translate-history).  <br />a value of 0 will keep no history |
 
 ##### environment variables config snapshot:
 
@@ -53,7 +51,7 @@ if You input wrong word, the workflow will correct your input, and You can press
 
 ## Hotkey
 
-if you download the workflow, you may lost the hotkey, so you can manual config this.
+If you download the workflow, you may have to manually set the hotkey yourself.
 
 ##### hotkey config snapshot:
 
@@ -67,23 +65,21 @@ if you download the workflow, you may lost the hotkey, so you can manual config 
 
 
 
-## Snapshot
-
-- correct
+## Screenshots
 
   ![](media/detect-lang.png)
 
   ![corrected.png](media/corrected.png)
 
-- press <kbd>enter</kbd> to read，press<kbd>cmd</kbd>+<kbd>C</kbd> to copy
+- press <kbd>enter</kbd> to read or <kbd>cmd</kbd>+<kbd>C</kbd> to copy
 
     ![general.png](media/general.png)
 
-- press <kbd>shift</kbd> to open translate website
+- press <kbd>shift</kbd> to open the translation website
 
     ![quicklook.png](media/quicklook.png)
 
-- press <kbd>cmd</kbd>+<kbd>L</kbd> to show full content，like the [gif in hotkey](#hotkey-and-largetype-snapshot).
+- press <kbd>cmd</kbd>+<kbd>L</kbd> to show the translation in large text [like this](#hotkey-and-largetype-snapshot).
 
 ## Related
 
