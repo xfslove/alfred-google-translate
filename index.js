@@ -136,7 +136,7 @@ function doTranslate(opts) {
                 // Input
                 items.push({
                     title: fromText,
-                    subtitle: `Phonetic: ${fromPhonetic}`,
+                    subtitle: `${fromPhonetic}`,
                     quicklookurl: `${g_config.domain}/#view=home&op=translate&sl=${opts.from.language}&tl=${opts.to.language}&text=${encodeURIComponent(fromText)}`,
                     arg: fromArg,
                     text: {
@@ -151,10 +151,11 @@ function doTranslate(opts) {
                 var toPhonetic = res.to.text.phonetic;
                 var toText = res.to.text.value;
                 var toArg = g_config.voice === 'remote' ? opts.to.ttsfile : g_config.voice === 'local' ? toText : '';
+
                 // Translation
                 items.push({
                     title: toText,
-                    subtitle: `Phonetic: ${toPhonetic}`,
+                    subtitle: `${toPhonetic}`,
                     quicklookurl: `${g_config.domain}/#view=home&op=translate&sl=${opts.to.language}&tl=${opts.from.language}&text=${encodeURIComponent(toText)}`,
                     arg: toArg,
                     text: {
@@ -167,22 +168,22 @@ function doTranslate(opts) {
                 });
 
                 // Definitions
-                res.to.definitions.forEach(definition => {
-                    items.push({
-                        title: `Definition[${definition.partsOfSpeech}]: ${definition.value}`,
-                        subtitle: `Example: ${definition.example}`,
-                        text: {
-                            copy: definition.value,
-                            largetype: `Definition: ${definition.value}\n\nExample: ${definition.example}`
-                        }
-                    });
-                });
+                // res.to.definitions.forEach(definition => {
+                //     items.push({
+                //         title: `Definition[${definition.partsOfSpeech}]: ${definition.value}`,
+                //         subtitle: `Example: ${definition.example}`,
+                //         text: {
+                //             copy: definition.value,
+                //             largetype: `Definition: ${definition.value}\n\nExample: ${definition.example}`
+                //         }
+                //     });
+                // });
 
                 // Translation Of
                 res.to.translations.forEach(translation => {
                     items.push({
-                        title: `Translation[${translation.partsOfSpeech}]: ${translation.value}`,
-                        subtitle: `Frequency: ${translation.frequency.toFixed(4)} Synonyms: ${translation.synonyms}`,
+                        title: translation.value,
+                        subtitle: translation.synonyms.join(', '),
                         text: {
                             copy: translation.value,
                             largetype: `Translation: ${translation.value}\n\nSynonyms: ${translation.synonyms}`
