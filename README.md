@@ -15,7 +15,7 @@ To use this workflow you must also install the [alfred-language-configuration](h
 - Install with `npm install -g alfred-google-translate`.
 
 ### Manually
-- Or [download the workflow directly](https://github.com/xfslove/alfred-google-translate/releases/tag/v2.0.8).
+- Or [download the workflow directly](https://github.com/xfslove/alfred-google-translate/releases/tag/v2.0.9).
 
 ## Changelog
 See [all past and current releases](https://github.com/xfslove/alfred-google-translate/releases).
