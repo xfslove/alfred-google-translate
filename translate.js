@@ -25,7 +25,7 @@ function translate(text, opts) {
         data[token.name] = token.value;
         return url + '?' + querystring.stringify(data);
     }).then(function (url) {
-        return got(url).then(function (res) {
+        return got(url, {agent: opts.agent}).then(function (res) {
             var body = JSON.parse(res.body);
 
             var result = {

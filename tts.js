@@ -77,7 +77,7 @@ function single(text, opts) {
         data[token.name] = token.value;
         return url + '?' + querystring.stringify(data);
     }).then(function (url) {
-        return got(url, {encoding: null}).then(function (res) {
+        return got(url, {encoding: null, agent: opts.agent}).then(function (res) {
             fs.appendFile(opts.file, res.body, function (err) {
                 if (err) throw err;
             });
