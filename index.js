@@ -8,11 +8,13 @@ var uuidv4 = require('uuid/v4');
 var languagePair = new configstore('language-config-pair');
 var history = new configstore("translate-history");
 var languages = require("./languages");
+var SocksProxyAgent = require('socks-proxy-agent');
 
 var g_config = {
     voice: process.env.voice || 'remote',
     save: process.env.save_count || 20,
-    domain: process.env.domain || 'https://translate.google.com'
+    domain: process.env.domain || 'https://translate.google.com',
+	agent: process.env.socks_proxy ? new SocksProxyAgent(process.env.socks_proxy) : undefined
 };
 
 var pair = languagePair.get('pair');
@@ -40,7 +42,8 @@ if (pair) {
             from: 'auto',
             to: 'en',
             domain: g_config.domain,
-            client: 'gtx'
+            client: 'gtx',
+			agent: g_config.agent
         })
         .then(function (res) {
             var detect = res.from.language.iso;
@@ -99,7 +102,8 @@ function doTranslate(opts) {
             from: opts.from.language,
             to: opts.to.language,
             domain: g_config.domain,
-            client: 'gtx'
+            client: 'gtx',
+     		agent: g_config.agent
         })
         .then(function (res) {
             var items = [];
@@ -218,7 +222,8 @@ function doTranslate(opts) {
                     to: res.from.language.iso,
                     domain: g_config.domain,
                     file: res.from.language.ttsfile,
-                    client: 'gtx'
+                    client: 'gtx',
+					agent: g_config.agent
                 });
                 var toArray = [];
                 res.to.text.array.forEach(o => tts.split(o).forEach(t => toArray.push(t)));
@@ -226,7 +231,8 @@ function doTranslate(opts) {
                     to: res.to.language.iso,
                     domain: g_config.domain,
                     file: res.to.language.ttsfile,
-                    client: 'gtx'
+                    client: 'gtx',
+					agent: g_config.agent
                 });
             }
         })

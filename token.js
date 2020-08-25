@@ -73,14 +73,14 @@ var window = {
     TKK: config.get('TKK') || '0'
 };
 
-function updateTKK(url) {
+function updateTKK(opts) {
     return new Promise(function (resolve, reject) {
         var now = Math.floor(Date.now() / 3600000);
 
         if (Number(window.TKK.split('.')[0]) === now) {
             resolve();
         } else {
-            got(url).then(function (res) {
+            got(opts.domain, {agent: opts.agent}).then(function (res) {
                 var matches = res.body.match(/tkk:\s?'(.+?)'/i);
 
                 if (matches) {
@@ -107,7 +107,7 @@ function updateTKK(url) {
 function get(text, opts) {
     opts = opts || {};
 
-    return updateTKK(opts.domain).then(function () {
+    return updateTKK(opts).then(function () {
         var tk = sM(text);
         tk = tk.replace('&tk=', '');
         return {name: 'tk', value: tk};
