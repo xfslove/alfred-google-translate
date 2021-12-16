@@ -1,3 +1,5 @@
+# Hi, all, due to the busy work, and not much time for maintenance, look forward to someone will continuing to maintain.🙏
+
 # alfred-google-translate
 [![NPM](https://nodei.co/npm/alfred-google-translate.png)](https://nodei.co/npm/alfred-google-translate/)
 
