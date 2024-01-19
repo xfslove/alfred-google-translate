@@ -98,8 +98,6 @@ if (pair) {
 }
 
 function doTranslate(opts) {
-  //文档上说cmd+L时会找largetype，找不到会找arg，但是实际并不生效。
-  //同时下一步的发音模块中query变量的值为arg的值。
   translator
     .translate(opts.text, {
       from: opts.from.language,
@@ -179,16 +177,16 @@ function doTranslate(opts) {
         });
 
         // Definitions
-        // res.to.definitions.forEach((definition) => {
-        //   items.push({
-        //     title: `Definition[${definition.partsOfSpeech}]: ${definition.value}`,
-        //     subtitle: `Example: ${definition.example}`,
-        //     text: {
-        //       copy: definition.value,
-        //       largetype: `Definition: ${definition.value}\n\nExample: ${definition.example}`,
-        //     },
-        //   });
-        // });
+        res.to.definitions.forEach((definition) => {
+          items.push({
+            title: `Definition[${definition.partsOfSpeech}]: ${definition.value}`,
+            subtitle: `Example: ${definition.example}`,
+            text: {
+              copy: definition.value,
+              largetype: `Definition: ${definition.value}\n\nExample: ${definition.example}`,
+            },
+          });
+        });
 
         // Translation Of
         res.to.translations.forEach((translation) => {
@@ -203,12 +201,6 @@ function doTranslate(opts) {
         });
       }
 
-      const filteredItems = items.filter((item) => ({
-        title: item.title,
-        subtitle: item.subtitle,
-        arg: "element.id",
-      }));
-
       alfy.output(items);
 
       res.from.language.ttsfile = opts.from.ttsfile;
@@ -217,47 +209,48 @@ function doTranslate(opts) {
     })
     .then((res) => {
       // history, todo: could be optimized
-      // if (g_config.save > 0) {
-      //   var value = {
-      //     time: Date.now(),
-      //     from: res.from.text.value,
-      //     to: res.to.text.value,
-      //   };
-      //   var histories = history.get("history")
-      //     ? JSON.parse(history.get("history"))
-      //     : [];
-      //   if (histories.length >= g_config.save) histories.shift();
-      //   histories.push(value);
-      //   history.set("history", JSON.stringify(histories));
-      // }
+      if (g_config.save > 0) {
+        var value = {
+          time: Date.now(),
+          from: res.from.text.value,
+          to: res.to.text.value,
+        };
+        var histories = history.get("history")
+          ? JSON.parse(history.get("history"))
+          : [];
+        if (histories.length >= g_config.save) histories.shift();
+        histories.push(value);
+        history.set("history", JSON.stringify(histories));
+      }
 
       return res;
     })
     .then((res) => {
-      // tts
-      // if (g_config.voice === "remote") {
-      //   var fromArray = [];
-      //   res.from.text.array.forEach((o) =>
-      //     tts.split(o).forEach((t) => fromArray.push(t))
-      //   );
-      //   tts.multi(fromArray, {
-      //     to: res.from.language.iso,
-      //     domain: g_config.domain,
-      //     file: res.from.language.ttsfile,
-      //     client: "gtx",
-      //     agent: g_config.agent,
-      //   });
-      //   var toArray = [];
-      //   res.to.text.array.forEach((o) =>
-      //     tts.split(o).forEach((t) => toArray.push(t))
-      //   );
-      //   tts.multi(toArray, {
-      //     to: res.to.language.iso,
-      //     domain: g_config.domain,
-      //     file: res.to.language.ttsfile,
-      //     client: "gtx",
-      //     agent: g_config.agent,
-      //   });
-      // }
+      // // tts
+      if (g_config.voice === "remote") {
+        // var fromArray = [];
+        // res.from.text.array.forEach((o) =>
+        //   tts.split(o).forEach((t) => fromArray.push(t))
+        // );
+        // tts.multi(fromArray, {
+        //   to: res.from.language.iso,
+        //   domain: g_config.domain,
+        //   file: res.from.language.ttsfile,
+        //   client: "gtx",
+        //   agent: g_config.agent,
+        //   responseType: "buffer",
+        // });
+        // var toArray = [];
+        // res.to.text.array.forEach((o) =>
+        //   tts.split(o).forEach((t) => toArray.push(t))
+        // );
+        // tts.multi(toArray, {
+        //   to: res.to.language.iso,
+        //   domain: g_config.domain,
+        //   file: res.to.language.ttsfile,
+        //   client: "gtx",
+        //   agent: g_config.agent,
+        // });
+      }
     });
 }

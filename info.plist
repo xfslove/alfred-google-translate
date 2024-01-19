@@ -110,6 +110,8 @@ fi</string>
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -148,7 +150,7 @@ fi</string>
 			<key>uid</key>
 			<string>287F7DE4-2A8A-4356-9659-797E2F2AE72A</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 	</array>
 	<key>readme</key>
@@ -158,25 +160,27 @@ fi</string>
 		<key>287F7DE4-2A8A-4356-9659-797E2F2AE72A</key>
 		<dict>
 			<key>xpos</key>
-			<integer>300</integer>
+			<real>300</real>
 			<key>ypos</key>
-			<integer>160</integer>
+			<real>160</real>
 		</dict>
 		<key>525521A9-62B9-40EE-B9D6-EB1B484BA29D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>570</integer>
+			<real>570</real>
 			<key>ypos</key>
-			<integer>160</integer>
+			<real>160</real>
 		</dict>
 		<key>C111234F-195C-486B-BB1D-04203C339ADD</key>
 		<dict>
 			<key>xpos</key>
-			<integer>40</integer>
+			<real>40</real>
 			<key>ypos</key>
-			<integer>160</integer>
+			<real>160</real>
 		</dict>
 	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
 	<key>version</key>
 	<string></string>
 	<key>webaddress</key>
